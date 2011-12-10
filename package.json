@@ -3,6 +3,10 @@
   "description": "NodeJS SDK for the Dropbox API",
   "version": "0.1.1",
   "author": "Brock Whitten <brock@sintaxi.com>",
+  "contributors": [
+    { "name": "Brock Whitten", "email": "brock@sintaxi.com" },
+    { "name": "Anton Podviaznikov", "email": "podviaznikov@gmail.com" }
+  ],
   "keywords": ["dropbox", "sdk", "s3"],
   "main": "./dbox.js",
   "repository": { 
