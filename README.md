@@ -120,7 +120,7 @@ Creates directory at specified location.
       root:              : "sandbox"           // optional
     }
 
-    client.mkdir("foo", options function(status, reply){
+    client.mkdir("foo", options, function(status, reply){
       console.log(status)
       // 200
       console.log(reply)
@@ -149,7 +149,7 @@ Moves file or directory to a new location.
       root:              : "sandbox"           // optional
     }
 
-    client.mv("foo", "bar", options function(status, reply){
+    client.mv("foo", "bar", options, function(status, reply){
       console.log(status)
       // 200
       console.log(reply)
