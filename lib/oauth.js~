@@ -25,7 +25,7 @@ module.exports = function (consumerKey, consumerSecret){
   return function (options){
     var options   = JSON.parse(JSON.stringify(options))
     var secret    = options["oauth_token_secret"]
-    var signature = encode(getSignature(secret))
+    var signature = getSignature(secret)
     var timestamp = getTimestamp()
     var nonce     = getNonce(timestamp)
 
