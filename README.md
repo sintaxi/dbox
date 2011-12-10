@@ -63,7 +63,7 @@ pass in the `oauth_token` into the querystring.
 
 ### access_token(callback)
 
-One the user has granted authorization we can now generate the access token
+Once the user has granted authorization we can now generate the access token
 using the request token to sign the request.
 
     var options = {
