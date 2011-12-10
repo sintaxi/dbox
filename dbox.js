@@ -26,7 +26,13 @@ exports.createClient = function(config){
         cb(r.statusCode, obj)
       })
     },
-
+    build_authorize_url: function(oauth_token, oauth_callback){
+      var url = "https://www.dropbox.com/1/oauth/authorize?oauth_token=" + oauth_token;
+      if(oauth_callback){
+        url = url + "&oauth_callback=" + oauth_callback;
+      }
+      return url;
+    },
     access_token: function(options, cb){
       var params = sign(options)
       var args = {
