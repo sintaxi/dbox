@@ -1,6 +1,6 @@
 # dbox 
 
-## Instalation
+## Installation
 
 I always recomend you bundle your dependencies with your application. To do
 this, create a `package.json` file in the root of your project with the minimum
