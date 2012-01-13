@@ -85,7 +85,6 @@ exports.createClient = function(config){
         "body": body 
       }
       request(args, function(e, r, b){
-        console.log(b)
         cb(r.statusCode, JSON.parse(b))
       })
     },
