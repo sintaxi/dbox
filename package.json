@@ -6,7 +6,8 @@
   "contributors": [
     { "name": "Brock Whitten", "email": "brock@sintaxi.com" },
     { "name": "Anton Podviaznikov", "email": "podviaznikov@gmail.com" },
-    { "name": "Tom Gallacher", "email": "tomgallacher23@gmail.com" }
+    { "name": "Tom Gallacher", "email": "tomgallacher23@gmail.com" },
+    { "name": "Emmanuel Boudrant", "email": "emmanuel.boudrant@gmail.com" }
   ],
   "keywords": ["dropbox", "sdk", "s3"],
   "main": "./dbox.js",
