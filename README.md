@@ -8,9 +8,9 @@ information...
 
     {
       "name": "yourapplication",
-      "verson": "0.0.1",
+      "verson": "0.1.0",
       "dependencies": {
-        "dbox": "0.2.1"
+        "dbox": "0.2.2"
       }
     }
 
