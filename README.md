@@ -10,7 +10,7 @@ information...
       "name": "yourapplication",
       "verson": "0.1.0",
       "dependencies": {
-        "dbox": "0.2.2"
+        "dbox": "0.3.0"
       }
     }
 
