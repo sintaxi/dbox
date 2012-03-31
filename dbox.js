@@ -64,6 +64,19 @@ exports.createClient = function(config){
       })
     },
 
+    delta: function(options, cb){
+      var params = sign(options)
+      var args = {
+        "method": "POST",
+        "headers": { "content-type": "application/x-www-form-urlencoded" },
+        "url": "https://api.dropbox.com/1/delta",
+        "body": qs.stringify(params)
+      }
+      request(args, function(e, r, b){
+        cb(r.statusCode, JSON.parse(b))
+      })
+    },
+
     get: function(path, options, cb){
       var params = sign(options)
 
