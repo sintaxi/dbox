@@ -17,7 +17,7 @@
     "url": "https://github.com/sintaxi/node-dbox.git"
   },
   "dependencies": {
-    "request": "2.9.100"
+    "request": "2.9.153"
   },
   "engines": { "node": "*" },
   "licenses" : [
