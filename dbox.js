@@ -6,7 +6,7 @@ exports.createClient = function(config){
 
   var sign = oauth(config.app_key, config.app_secret)
   var root = config.root || "sandbox"
- 
+
   return {
 
     request_token: function(cb){
@@ -21,7 +21,7 @@ exports.createClient = function(config){
         var obj = {}
         b.split("&").forEach(function(kv){
           var kv = kv.split("=")
-          obj[kv[0]] = kv[1] 
+          obj[kv[0]] = kv[1]
         })
         cb(r.statusCode, obj)
       })
@@ -45,7 +45,7 @@ exports.createClient = function(config){
         var obj = {}
         b.split("&").forEach(function(kv){
           var kv = kv.split("=")
-          obj[kv[0]] = kv[1] 
+          obj[kv[0]] = kv[1]
         })
         cb(r.statusCode, obj)
       })
@@ -57,6 +57,19 @@ exports.createClient = function(config){
         "method": "POST",
         "headers": { "content-type": "application/x-www-form-urlencoded" },
         "url": "https://api.dropbox.com/1/account/info",
+        "body": qs.stringify(params)
+      }
+      request(args, function(e, r, b){
+        cb(r.statusCode, JSON.parse(b))
+      })
+    },
+
+    delta: function(options, cb){
+      var params = sign(options)
+      var args = {
+        "method": "POST",
+        "headers": { "content-type": "application/x-www-form-urlencoded" },
+        "url": "https://api.dropbox.com/1/delta",
         "body": qs.stringify(params)
       }
       request(args, function(e, r, b){
@@ -83,7 +96,7 @@ exports.createClient = function(config){
         "method": "PUT",
         "headers": { "content-length": body.length },
         "url": "https://api-content.dropbox.com/1/files_put/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params),
-        "body": body 
+        "body": body
       }
       request(args, function(e, r, b){
         cb(r.statusCode, JSON.parse(b))
@@ -140,7 +153,7 @@ exports.createClient = function(config){
         "method": "POST",
         "headers": {
           "content-type": "application/x-www-form-urlencoded",
-          "content-length": body.length 
+          "content-length": body.length
         },
         "url": "https://api.dropbox.com/1/search/" + (params.root || root) + "/" + qs.escape(path),
         "body": body
@@ -157,9 +170,9 @@ exports.createClient = function(config){
         "method": "POST",
         "headers": {
           "content-type": "application/x-www-form-urlencoded",
-          "content-length": body.length 
+          "content-length": body.length
         },
-        "url": "https://api.dropbox.com/1/shares/" + (params.root || root) + "/" + qs.escape(path), 
+        "url": "https://api.dropbox.com/1/shares/" + (params.root || root) + "/" + qs.escape(path),
         "body": body
       }
       request(args, function(e, r, b){
@@ -174,9 +187,9 @@ exports.createClient = function(config){
         "method": "POST",
         "headers": {
           "content-type": "application/x-www-form-urlencoded",
-          "content-length": body.length 
+          "content-length": body.length
         },
-        "url": "https://api.dropbox.com/1/media/" + (params.root || root) + "/" + qs.escape(path), 
+        "url": "https://api.dropbox.com/1/media/" + (params.root || root) + "/" + qs.escape(path),
         "body": body
       }
       request(args, function(e, r, b){
@@ -260,7 +273,7 @@ exports.createClient = function(config){
       })
     }
 
-  } 
+  }
 
 }
 
