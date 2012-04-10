@@ -8,7 +8,7 @@ information...
 
     {
       "name": "yourapplication",
-      "verson": "0.1.0",
+      "version": "0.1.0",
       "dependencies": {
         "dbox": "0.3.1"
       }
@@ -55,13 +55,13 @@ once a valid `Request Token` is generated.
 
 ### Authorization
 
-The next step is to redirect the user to the dropbox endpoint to recieve
+The next step is to redirect the user to the dropbox endpoint to receive
 authorization from the user. Dbox makes no attempt to do this for you. Simply
 pass in the `oauth_token` into the querystring.
 
     https://www.dropbox.com/1/oauth/authorize?oauth_token=h89r0sdfdsfwiko
 
-### access_token(callback)
+### access_token(options, callback)
 
 Once the user has granted authorization we can now generate the access token
 using the request token to sign the request.
