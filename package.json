@@ -10,7 +10,8 @@
     { "name": "Emmanuel Boudrant", "email": "emmanuel.boudrant@gmail.com" },
     { "name": "Danny Amey", "email": "git@dannyamey.com" },
     { "name": "Michiel DeJong", "email": "michiel@unhosted.org" },
-    { "name": "Julien Cayzac", "email": "julien.cayzac@gmail.com" }
+    { "name": "Julien Cayzac", "email": "julien.cayzac@gmail.com" },
+    { "name": "Aleksandar Kolundzija", "email": "a@ak.rs" }
   ],
   "keywords": ["dropbox", "sdk", "s3"],
   "main": "./dbox.js",
