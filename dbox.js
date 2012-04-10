@@ -18,12 +18,7 @@ exports.createClient = function(config){
         "body": qs.stringify(signature)
       }
       request(args, function(e, r, b){
-        var obj = {}
-        b.split("&").forEach(function(kv){
-          var kv = kv.split("=")
-          obj[kv[0]] = kv[1] 
-        })
-        cb(r.statusCode, obj)
+        cb(e ? null : r.statusCode, qs.parse(b))
       })
     },
     build_authorize_url: function(oauth_token, oauth_callback){
@@ -42,12 +37,7 @@ exports.createClient = function(config){
         "body": qs.stringify(params)
       }
       request(args, function(e, r, b){
-        var obj = {}
-        b.split("&").forEach(function(kv){
-          var kv = kv.split("=")
-          obj[kv[0]] = kv[1] 
-        })
-        cb(r.statusCode, obj)
+        cb(e ? null : r.statusCode, qs.parse(b))
       })
     },
 
@@ -60,7 +50,7 @@ exports.createClient = function(config){
         "body": qs.stringify(params)
       }
       request(args, function(e, r, b){
-        cb(r.statusCode, JSON.parse(b))
+        cb(e ? null : r.statusCode, JSON.parse(b))
       })
     },
 
@@ -73,7 +63,7 @@ exports.createClient = function(config){
         "encoding": null
       }
       request(args, function(e, r, b){
-        cb(r.statusCode, b)
+        cb(e ? null : r.statusCode, b)
       })
     },
 
@@ -86,7 +76,7 @@ exports.createClient = function(config){
         "body": body 
       }
       request(args, function(e, r, b){
-        cb(r.statusCode, JSON.parse(b))
+        cb(e ? null : r.statusCode, JSON.parse(b))
       })
     },
 
@@ -97,7 +87,7 @@ exports.createClient = function(config){
         "url": "https://api.dropbox.com/1/metadata/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
       }
       request(args, function(e, r, b){
-        cb(r.statusCode, b)
+        cb(e ? null : r.statusCode, b)
       })
     },
 
@@ -108,7 +98,7 @@ exports.createClient = function(config){
         "url": "https://api.dropbox.com/1/revisions/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
       }
       request(args, function(e, r, b){
-        cb(r.statusCode, JSON.parse(b))
+        cb(e ? null : r.statusCode, JSON.parse(b))
       })
     },
 
@@ -127,7 +117,7 @@ exports.createClient = function(config){
         "body": qs.stringify(params)
       }
       request(args, function(e, r, b){
-        cb(r.statusCode, b)
+        cb(e ? null : r.statusCode, b)
       })
     },
 
@@ -146,7 +136,7 @@ exports.createClient = function(config){
         "body": body
       }
       request(args, function(e, r, b){
-        cb(r.statusCode, JSON.parse(b))
+        cb(e ? null : r.statusCode, JSON.parse(b))
       })
     },
 
@@ -163,7 +153,7 @@ exports.createClient = function(config){
         "body": body
       }
       request(args, function(e, r, b){
-        cb(r.statusCode, b)
+        cb(e ? null : r.statusCode, b)
       })
     },
 
@@ -180,7 +170,7 @@ exports.createClient = function(config){
         "body": body
       }
       request(args, function(e, r, b){
-        cb(r.statusCode, b)
+        cb(e ? null : r.statusCode, b)
       })
     },
 
@@ -192,7 +182,7 @@ exports.createClient = function(config){
         "encoding": null
       }
       request(args, function(e, r, b){
-        cb(r.statusCode, b)
+        cb(e ? null : r.statusCode, b)
       })
     },
 
@@ -208,7 +198,7 @@ exports.createClient = function(config){
         "body": qs.stringify(params)
       }
       request(args, function(e, r, b){
-        cb(r.statusCode, JSON.parse(b))
+        cb(e ? null : r.statusCode, JSON.parse(b))
       })
     },
 
@@ -226,7 +216,7 @@ exports.createClient = function(config){
       }
 
       request(args, function(e, r, b){
-        cb(r.statusCode, JSON.parse(b))
+        cb(e ? null : r.statusCode, JSON.parse(b))
       })
     },
 
@@ -241,7 +231,7 @@ exports.createClient = function(config){
         "body": qs.stringify(params)
       }
       request(args, function(e, r, b){
-        cb(r.statusCode, JSON.parse(b))
+        cb(e ? null : r.statusCode, JSON.parse(b))
       })
     },
 
@@ -256,7 +246,7 @@ exports.createClient = function(config){
         "body": qs.stringify(params)
       }
       request(args, function(e, r, b){
-        cb(r.statusCode, JSON.parse(b))
+        cb(e ? null : r.statusCode, JSON.parse(b))
       })
     }
 
