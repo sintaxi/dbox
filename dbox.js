@@ -187,6 +187,17 @@ exports.createClient = function(config){
       })
     },
 
+    copy_ref: function(path, options, cb){
+      var params = sign(options)
+      var args = {
+        "method": "GET",
+        "url": "https://api.dropbox.com/1/copy_ref/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
+      }
+      request(args, function(e, r, b){
+        cb(e ? null : r.statusCode, b)
+      })
+    },
+
     thumbnails: function(path, options, cb){
       var params = sign(options)
       var args = {
