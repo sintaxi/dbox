@@ -127,7 +127,11 @@ exports.app = function(config){
             "url": "https://api.dropbox.com/1/metadata/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
           }
           request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, JSON.parse(b))
+            // this is a special case, since the dropbox api returns a
+            // 304 response with an empty body when the 'hash' option
+            // is provided and there have been no changes since the
+            // hash was computed
+            cb(e ? null : r.statusCode, r.statusCode == 304 ? {} : JSON.parse(b))
           })
         },
 
