@@ -291,16 +291,21 @@ exports.app = function(config){
         },
 
         cp: function(from_path, to_path, args, cb){
+          var from_param_key = "from_path";
           if(cb == null){
             cb = args
           }else{
             for(var attr in args)(function(attr){
-              options[attr] = args[attr]
+              if (attr === "from_copy_ref"){
+                from_param_key = "from_copy_ref"
+              } else {
+                options[attr] = args[attr]
+              }
             })(attr)
           }
           var params = sign(options)
           params["root"] = params.root || root
-          params["from_path"] = from_path
+          params[from_param_key] = from_path
           params["to_path"] = to_path
           var args = {
             "method": "POST",
