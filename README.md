@@ -389,16 +389,16 @@ output of `reply` returns...
 
 Gets a thumbnail for an image.
 
-    client.thumbnails("foo/hello.txt", function(status, reply){
-      console.log(reply)
+    client.thumbnails("foo/koala.jpg", function(status, reply, metadata){
+      require('fs').writeFile('koala_small.jpg', reply, function () {
+        console.log('Thumbnail saved!');
+      });
     })
 
-output of `reply` returns...
+
+output of `reply` is a buffer which should be sent to a new image file.
 
     {
-      "url": "http://www.dropbox.com/s/m/a2mbDa2",
-      "expires": "Thu, 16 Sep 2011 01:01:25 +0000"
-    }
 
 ### copy_ref(path, [options,] callback)
 
