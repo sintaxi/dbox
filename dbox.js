@@ -89,7 +89,7 @@ exports.app = function(config){
             "encoding": null
           }
           request(args, function(e, r, b){
-            cb(r.statusCode, b)
+            cb(r.statusCode, b, r.headers["x-dropbox-metadata"])
           })
         },
 
