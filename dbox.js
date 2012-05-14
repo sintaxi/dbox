@@ -17,7 +17,7 @@ exports.app = function(config){
         "url": "https://api.dropbox.com/1/oauth/request_token",
         "body": qs.stringify(signature)
       }
-      request(args, function(e, r, b){
+      return request(args, function(e, r, b){
         var obj = qs.parse(b)
         obj.authorize_url = "https://www.dropbox.com/1/oauth/authorize?oauth_token=" + obj.oauth_token
         cb(e ? null : r.statusCode, obj)
@@ -32,7 +32,7 @@ exports.app = function(config){
         "url": "https://api.dropbox.com/1/oauth/access_token",
         "body": qs.stringify(params)
       }
-      request(args, function(e, r, b){
+      return request(args, function(e, r, b){
         cb(e ? null : r.statusCode, qs.parse(b))
       })
     },
@@ -49,7 +49,7 @@ exports.app = function(config){
             "url": "https://api.dropbox.com/1/account/info",
             "body": qs.stringify(params)
           }
-          request(args, function(e, r, b){
+          return request(args, function(e, r, b){
             cb(e ? null : r.statusCode, JSON.parse(b))
           })
         },
@@ -69,7 +69,7 @@ exports.app = function(config){
             "url": "https://api.dropbox.com/1/delta",
             "body": qs.stringify(params)
           }
-          request(args, function(e, r, b){
+          return request(args, function(e, r, b){
             cb(e ? null : r.statusCode, JSON.parse(b))
           })
         },
@@ -88,7 +88,7 @@ exports.app = function(config){
             "url": "https://api-content.dropbox.com/1/files/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params),
             "encoding": null
           }
-          request(args, function(e, r, b){
+          return request(args, function(e, r, b){
             cb(r.statusCode, b, r.headers['x-dropbox-metadata'])
           })
         },
@@ -108,7 +108,7 @@ exports.app = function(config){
             "url": "https://api-content.dropbox.com/1/files_put/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params),
             "body": body 
           }
-          request(args, function(e, r, b){
+          return request(args, function(e, r, b){
             cb(e ? null : r.statusCode, JSON.parse(b))
           })
         },
@@ -126,7 +126,7 @@ exports.app = function(config){
             "method": "GET",
             "url": "https://api.dropbox.com/1/metadata/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
           }
-          request(args, function(e, r, b){
+          return request(args, function(e, r, b){
             // this is a special case, since the dropbox api returns a
             // 304 response with an empty body when the 'hash' option
             // is provided and there have been no changes since the
@@ -148,7 +148,7 @@ exports.app = function(config){
             "method": "GET",
             "url": "https://api.dropbox.com/1/revisions/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
           }
-          request(args, function(e, r, b){
+          return request(args, function(e, r, b){
             cb(e ? null : r.statusCode, JSON.parse(b))
           })
         },
@@ -174,7 +174,7 @@ exports.app = function(config){
             "url": "https://api.dropbox.com/1/restore/" + (params.root || root) + "/" + qs.escape(path), // + "?" + qs.stringify(params)
             "body": qs.stringify(params)
           }
-          request(args, function(e, r, b){
+          return request(args, function(e, r, b){
             cb(e ? null : r.statusCode, JSON.parse(b))
           })
         },
@@ -200,7 +200,7 @@ exports.app = function(config){
             "url": "https://api.dropbox.com/1/search/" + (params.root || root) + "/" + qs.escape(path),
             "body": body
           }
-          request(args, function(e, r, b){
+          return request(args, function(e, r, b){
             cb(e ? null : r.statusCode, JSON.parse(b))
           })
         },
@@ -224,7 +224,7 @@ exports.app = function(config){
             "url": "https://api.dropbox.com/1/shares/" + (params.root || root) + "/" + qs.escape(path), 
             "body": body
           }
-          request(args, function(e, r, b){
+          return request(args, function(e, r, b){
             cb(e ? null : r.statusCode, JSON.parse(b))
           })
         },
@@ -248,7 +248,7 @@ exports.app = function(config){
             "url": "https://api.dropbox.com/1/media/" + (params.root || root) + "/" + qs.escape(path), 
             "body": body
           }
-          request(args, function(e, r, b){
+          return request(args, function(e, r, b){
             cb(e ? null : r.statusCode, JSON.parse(b))
           })
         },
@@ -266,7 +266,7 @@ exports.app = function(config){
             "method": "GET",
             "url": "https://api.dropbox.com/1/copy_ref/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
           }
-          request(args, function(e, r, b){
+          return request(args, function(e, r, b){
             cb(e ? null : r.statusCode, JSON.parse(b))
           })
         },
@@ -285,7 +285,7 @@ exports.app = function(config){
             "url": "https://api-content.dropbox.com/1/thumbnails/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params),
             "encoding": null
           }
-          request(args, function(e, r, b){
+          return request(args, function(e, r, b){
             cb(e ? null : r.statusCode, b, r.headers['x-dropbox-metadata'])
           })
         },
@@ -313,7 +313,7 @@ exports.app = function(config){
             "url": "https://api.dropbox.com/1/fileops/copy",
             "body": qs.stringify(params)
           }
-          request(args, function(e, r, b){
+          return request(args, function(e, r, b){
             cb(e ? null : r.statusCode, JSON.parse(b))
           })
         },
@@ -338,7 +338,7 @@ exports.app = function(config){
             "body": qs.stringify(params)
           }
 
-          request(args, function(e, r, b){
+          return request(args, function(e, r, b){
             cb(e ? null : r.statusCode, JSON.parse(b))
           })
         },
@@ -360,7 +360,7 @@ exports.app = function(config){
             "url": "https://api.dropbox.com/1/fileops/delete",
             "body": qs.stringify(params)
           }
-          request(args, function(e, r, b){
+          return request(args, function(e, r, b){
             cb(e ? null : r.statusCode, JSON.parse(b))
           })
         },
@@ -382,7 +382,7 @@ exports.app = function(config){
             "url": "https://api.dropbox.com/1/fileops/create_folder",
             "body": qs.stringify(params)
           }
-          request(args, function(e, r, b){
+          return request(args, function(e, r, b){
             cb(e ? null : r.statusCode, JSON.parse(b))
           })
         }
