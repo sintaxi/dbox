@@ -206,15 +206,32 @@ output of `reply` returns...
 
 ### get(path, [options,] callback)
 
-Pulls down file. Available as a buffer
+Pulls down file (available as a buffer) with its metadata.
 
-    client.get("foo/hello.txt", function(status, reply){
-      console.log(reply.toString())
+    client.get("foo/hello.txt", function(status, reply, metadata){
+      console.log(reply.toString(), metadata)
     })
 
 output of `reply.toString()` returns...
    
     here is some text
+
+output of `metadata` returns...
+
+    {
+      "revision": 11,
+      "rev": "b07a93bb3",
+      "thumb_exists": false,
+      "bytes": 17,
+      "modified": "Sat, 12 May 2012 19:31:08 +0000",
+      "client_mtime": "Sat, 12 May 2012 19:30:52 +0000",
+      "path": "/foo/hello.txt",
+      "is_dir": false,
+      "icon": "page_white_text",
+       "root": "app_folder",
+       "mime_type": "text/plain",
+      "size": "17 bytes"
+    }
 
 ### metadata(path, [options,] callback)
 
@@ -389,16 +406,33 @@ output of `reply` returns...
 
 Gets a thumbnail for an image.
 
-    client.thumbnails("foo/hello.txt", function(status, reply){
-      console.log(reply)
+    client.thumbnails("foo/koala.jpg", function(status, reply, metadata){
+      console.log(metadata);
+
+      require('fs').writeFile('koala_small.jpg', reply, function () {
+        console.log('Thumbnail saved!');
+      });
     })
 
-output of `reply` returns...
+
+output of `reply` is a buffer which should be sent to a new image file.
+
+output of `metadata` returns...
 
     {
-      "url": "http://www.dropbox.com/s/m/a2mbDa2",
-      "expires": "Thu, 16 Sep 2011 01:01:25 +0000"
-    }
+      "revision": 13,
+      "rev": "d07a93bb3",
+      "thumb_exists": true,
+      "bytes": 780831,
+      "modified": "Sat, 12 May 2012 19:48:59 +0000",
+      "client_mtime": "Tue, 14 Jul 2009 05:32:31 +0000",
+      "path": "/foo/koala.jpg",
+      "is_dir": false,
+      "icon": "page_white_picture",
+      "root": "app_folder",
+      "mime_type": "image/jpeg",
+      "size": "762.5 KB"
+    } 
 
 ### copy_ref(path, [options,] callback)
 
