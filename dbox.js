@@ -253,7 +253,7 @@ exports.app = function(config){
           })
         },
 
-        copy_ref: function(path, args, cb){
+        cpref: function(path, args, cb){
           if(cb == null){
             cb = args
           }else{
