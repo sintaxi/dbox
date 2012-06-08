@@ -82,7 +82,7 @@ exports.app = function(config){
               options[attr] = args[attr]
             })(attr)
           }
-          var params = sign(options)
+          var params = sign(options);
           var args = {
             "method": "GET",
             "url": "https://api-content.dropbox.com/1/files/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params),
@@ -91,6 +91,28 @@ exports.app = function(config){
           return request(args, function(e, r, b){
             cb(r.statusCode, b, r.headers['x-dropbox-metadata'])
           })
+        },
+
+        createReadStream: function(path, args, stream) {
+
+          if(stream == null){
+            stream = args
+          }else{
+            for(var attr in args)(function(attr){
+              options[attr] = args[attr]
+            })(attr)
+          }
+
+          var params = sign(options);
+
+          var args = {
+            "method": "GET",
+            "url": "https://api-content.dropbox.com/1/files/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params),
+            "encoding": null
+          }
+
+          return request(args);
+
         },
 
         put: function(path, body, args, cb){
