@@ -2,6 +2,16 @@ var request = require("request")
 var oauth   = require("./lib/oauth")
 var qs      = require("querystring")
 
+
+var set_args = function (options, args) {
+    for(var attr in args) {
+	if (args.hasOwnProperty(attr)){
+            options[attr] = args[attr];
+	}
+    }
+    return options;
+};
+
 exports.app = function(config){
 
   var sign = oauth(config.app_key, config.app_secret)
@@ -55,14 +65,12 @@ exports.app = function(config){
         },
         
         delta: function(args, cb){
+          var params = sign(options)
           if(cb == null){
             cb = args
           }else{
-            for(var attr in args)(function(attr){
-              options[attr] = args[attr]
-            })(attr)
+	    set_args(params, args);
           }
-          var params = sign(options)
           var args = {
             "method": "POST",
             "headers": { "content-type": "application/x-www-form-urlencoded" },
@@ -75,14 +83,13 @@ exports.app = function(config){
         },
 
         get: function(path, args, cb){
+          var params = sign(options)
           if(cb == null){
             cb = args
           }else{
-            for(var attr in args)(function(attr){
-              options[attr] = args[attr]
-            })(attr)
+	      set_args(params, args);
           }
-          var params = sign(options);
+
           var args = {
             "method": "GET",
             "url": "https://api-content.dropbox.com/1/files/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params),
@@ -112,14 +119,13 @@ exports.app = function(config){
         },
 
         put: function(path, body, args, cb){
+          var params = sign(options)
           if(cb == null){
             cb = args
           }else{
-            for(var attr in args)(function(attr){
-              options[attr] = args[attr]
-            })(attr)
+	      set_args(params, args);
           }
-          var params = sign(options)
+
           var args = {
             "method": "PUT",
             "headers": { "content-length": body.length },
@@ -132,14 +138,12 @@ exports.app = function(config){
         },
 
         metadata: function(path, args, cb){
+          var params = sign(options);
           if(cb == null){
             cb = args
           }else{
-            for(var attr in args)(function(attr){
-              options[attr] = args[attr]
-            })(attr)
+	    set_args(params, args);
           }
-          var params = sign(options)
           var args = {
             "method": "GET",
             "url": "https://api.dropbox.com/1/metadata/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
@@ -202,14 +206,13 @@ exports.app = function(config){
         },
 
         revisions: function(path, args, cb){
+          var params = sign(options)
           if(cb == null){
             cb = args
           }else{
-            for(var attr in args)(function(attr){
-              options[attr] = args[attr]
-            })(attr)
+	    set_args(params, args);
           }
-          var params = sign(options)
+
           var args = {
             "method": "GET",
             "url": "https://api.dropbox.com/1/revisions/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
@@ -220,14 +223,13 @@ exports.app = function(config){
         },
 
         restore: function(path, rev, args, cb){
+          var params = sign(options)
           if(cb == null){
             cb = args
           }else{
-            for(var attr in args)(function(attr){
-              options[attr] = args[attr]
-            })(attr)
+	    set_args(params, args);
           }
-          var params = sign(options)
+
           params["rev"] = rev
 
           var body = qs.stringify(params)
@@ -246,14 +248,13 @@ exports.app = function(config){
         },
 
         search: function(path, query, args, cb){
+          var params = sign(options)
           if(cb == null){
             cb = args
           }else{
-            for(var attr in args)(function(attr){
-              options[attr] = args[attr]
-            })(attr)
+	    set_args(params, args);
           }
-          var params = sign(options)
+
           params["query"] = query
 
           var body = qs.stringify(params)
@@ -272,14 +273,12 @@ exports.app = function(config){
         },
 
         shares: function(path, args, cb){
+          var params = sign(options)
           if(cb == null){
             cb = args
           }else{
-            for(var attr in args)(function(attr){
-              options[attr] = args[attr]
-            })(attr)
+	    set_args(params, args);
           }
-          var params = sign(options)
           var body = qs.stringify(params)
           var args = {
             "method": "POST",
@@ -296,14 +295,12 @@ exports.app = function(config){
         },
 
         media: function(path, args, cb){
+          var params = sign(options)
           if(cb == null){
             cb = args
           }else{
-            for(var attr in args)(function(attr){
-              options[attr] = args[attr]
-            })(attr)
+	    set_args(params, args);
           }
-          var params = sign(options)
           var body = qs.stringify(params)
           var args = {
             "method": "POST",
@@ -320,14 +317,12 @@ exports.app = function(config){
         },
 
         cpref: function(path, args, cb){
+          var params = sign(options);
           if(cb == null){
             cb = args
           }else{
-            for(var attr in args)(function(attr){
-              options[attr] = args[attr]
-            })(attr)
+	    set_args(params, args);
           }
-          var params = sign(options)
           var args = {
             "method": "GET",
             "url": "https://api.dropbox.com/1/copy_ref/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
@@ -338,14 +333,13 @@ exports.app = function(config){
         },
 
         thumbnails: function(path, args, cb){
+          var params = sign(options)
           if(cb == null){
             cb = args
           }else{
-            for(var attr in args)(function(attr){
-              options[attr] = args[attr]
-            })(attr)
+	    set_args(params, args);
           }
-          var params = sign(options)
+
           var args = {
             "method": "GET",
             "url": "https://api-content.dropbox.com/1/thumbnails/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params),
@@ -358,18 +352,16 @@ exports.app = function(config){
 
         cp: function(from_path, to_path, args, cb){
           var from_param_key = "from_path";
+          var params = sign(options)
           if(cb == null){
             cb = args
           }else{
-            for(var attr in args)(function(attr){
-              if (attr === "from_copy_ref"){
-                from_param_key = "from_copy_ref"
-              } else {
-                options[attr] = args[attr]
-              }
-            })(attr)
+	    set_args(params, args);
+	    if (params.hasOwnProperty('from_copy_ref')) {
+		delete params['from_copy_ref'];
+		from_param_key = 'from_copy_ref';
+	    }
           }
-          var params = sign(options)
           params["root"] = params.root || root
           params[from_param_key] = from_path
           params["to_path"] = to_path
@@ -385,14 +377,12 @@ exports.app = function(config){
         },
 
         mv: function(from_path, to_path, args, cb){
+          var params = sign(options)
           if(cb == null){
             cb = args
           }else{
-            for(var attr in args)(function(attr){
-              options[attr] = args[attr]
-            })(attr)
+	    set_args(params, args);
           }
-          var params = sign(options)
           params["root"] = params.root || root
           params["from_path"] = from_path
           params["to_path"] = to_path
@@ -410,14 +400,12 @@ exports.app = function(config){
         },
 
         rm: function(path, args, cb){
+          var params = sign(options)
           if(cb == null){
             cb = args
           }else{
-            for(var attr in args)(function(attr){
-              options[attr] = args[attr]
-            })(attr)
+	    set_args(params, args);
           }
-          var params = sign(options)
           params["root"] = params["root"] || root
           params["path"] = path
           var args = {
@@ -432,14 +420,12 @@ exports.app = function(config){
         },
 
         mkdir: function(path, args, cb){
+          var params = sign(options)
           if(cb == null){
             cb = args
           }else{
-            for(var attr in args)(function(attr){
-              options[attr] = args[attr]
-            })(attr)
+	    set_args(params, args);
           }
-          var params = sign(options)
           params["root"] = params.root || root
           params["path"] = path
           var args = {
