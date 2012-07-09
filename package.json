@@ -13,7 +13,8 @@
     { "name": "Julien Cayzac", "email": "julien.cayzac@gmail.com" },
     { "name": "Aleksandar Kolundzija", "email": "a@ak.rs" },
     { "name": "Carl Sverre", "email": "accounts@carlsverre.com" },
-    { "name": "Leonardo D. Schlossmacher", "email": "e@leods92.com" }
+    { "name": "Leonardo D. Schlossmacher", "email": "e@leods92.com" },
+    { "name": "Sam Nguyen", "email": "samxnguyen@gmail.com" }
   ],
   "keywords": ["dropbox", "sdk", "s3"],
   "main": "./dbox.js",
