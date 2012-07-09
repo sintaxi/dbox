@@ -4,12 +4,12 @@ var qs      = require("querystring")
 
 
 var set_args = function (options, args) {
-    for(var attr in args) {
-	if (args.hasOwnProperty(attr)){
-            options[attr] = args[attr];
-	}
+  for(var attr in args) {
+    if (args.hasOwnProperty(attr)){
+      options[attr] = args[attr];
     }
-    return options;
+  }
+  return options;
 };
 
 exports.app = function(config){
@@ -69,7 +69,7 @@ exports.app = function(config){
           if(cb == null){
             cb = args
           }else{
-	    set_args(params, args);
+            set_args(params, args);
           }
           var args = {
             "method": "POST",
@@ -87,7 +87,7 @@ exports.app = function(config){
           if(cb == null){
             cb = args
           }else{
-	      set_args(params, args);
+            set_args(params, args);
           }
 
           var args = {
@@ -123,7 +123,7 @@ exports.app = function(config){
           if(cb == null){
             cb = args
           }else{
-	      set_args(params, args);
+            set_args(params, args);
           }
 
           var args = {
@@ -142,7 +142,7 @@ exports.app = function(config){
           if(cb == null){
             cb = args
           }else{
-	    set_args(params, args);
+            set_args(params, args);
           }
           var args = {
             "method": "GET",
@@ -210,7 +210,7 @@ exports.app = function(config){
           if(cb == null){
             cb = args
           }else{
-	    set_args(params, args);
+            set_args(params, args);
           }
 
           var args = {
@@ -227,7 +227,7 @@ exports.app = function(config){
           if(cb == null){
             cb = args
           }else{
-	    set_args(params, args);
+            set_args(params, args);
           }
 
           params["rev"] = rev
@@ -252,7 +252,7 @@ exports.app = function(config){
           if(cb == null){
             cb = args
           }else{
-	    set_args(params, args);
+            set_args(params, args);
           }
 
           params["query"] = query
@@ -277,7 +277,7 @@ exports.app = function(config){
           if(cb == null){
             cb = args
           }else{
-	    set_args(params, args);
+            set_args(params, args);
           }
           var body = qs.stringify(params)
           var args = {
@@ -299,7 +299,7 @@ exports.app = function(config){
           if(cb == null){
             cb = args
           }else{
-	    set_args(params, args);
+            set_args(params, args);
           }
           var body = qs.stringify(params)
           var args = {
@@ -321,7 +321,7 @@ exports.app = function(config){
           if(cb == null){
             cb = args
           }else{
-	    set_args(params, args);
+            set_args(params, args);
           }
           var args = {
             "method": "GET",
@@ -337,7 +337,7 @@ exports.app = function(config){
           if(cb == null){
             cb = args
           }else{
-	    set_args(params, args);
+            set_args(params, args);
           }
 
           var args = {
@@ -356,11 +356,11 @@ exports.app = function(config){
           if(cb == null){
             cb = args
           }else{
-	    set_args(params, args);
-	    if (params.hasOwnProperty('from_copy_ref')) {
-		delete params['from_copy_ref'];
-		from_param_key = 'from_copy_ref';
-	    }
+            set_args(params, args);
+            if (params.hasOwnProperty('from_copy_ref')) {
+              delete params['from_copy_ref'];
+              from_param_key = 'from_copy_ref';
+	          }
           }
           params["root"] = params.root || root
           params[from_param_key] = from_path
@@ -381,7 +381,7 @@ exports.app = function(config){
           if(cb == null){
             cb = args
           }else{
-	    set_args(params, args);
+            set_args(params, args);
           }
           params["root"] = params.root || root
           params["from_path"] = from_path
@@ -404,7 +404,7 @@ exports.app = function(config){
           if(cb == null){
             cb = args
           }else{
-	    set_args(params, args);
+            set_args(params, args);
           }
           params["root"] = params["root"] || root
           params["path"] = path
@@ -424,7 +424,7 @@ exports.app = function(config){
           if(cb == null){
             cb = args
           }else{
-	    set_args(params, args);
+            set_args(params, args);
           }
           params["root"] = params.root || root
           params["path"] = path
