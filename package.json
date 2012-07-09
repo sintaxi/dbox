@@ -15,7 +15,8 @@
     { "name": "Carl Sverre", "email": "accounts@carlsverre.com" },
     { "name": "Leonardo D. Schlossmacher", "email": "e@leods92.com" },
     { "name": "Sam Nguyen", "email": "samxnguyen@gmail.com" },
-    { "name": "Marak Squires", "email": "marak.squires@gmail.com" }
+    { "name": "Marak Squires", "email": "marak.squires@gmail.com" },
+    { "name": "Paul Ledbetter", "email": "mledbetter.paul@gmail.com" }
   ],
   "keywords": ["dropbox", "sdk", "s3"],
   "main": "./dbox.js",
