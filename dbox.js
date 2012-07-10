@@ -351,20 +351,36 @@ exports.app = function(config){
         },
 
         cp: function(from_path, to_path, args, cb){
-          var from_param_key = "from_path";
           var params = sign(options)
+          
           if(cb == null){
             cb = args
           }else{
             set_args(params, args);
-            if (params.hasOwnProperty('from_copy_ref')) {
-              delete params['from_copy_ref'];
-              from_param_key = 'from_copy_ref';
-	          }
           }
+          
+          // check for copy ref
+          if(from_path.hasOwnProperty("copy_ref")){
+            params['from_copy_ref'] = from_path["copy_ref"]
+          }else{
+            params['from_path'] = from_path
+          }
+          
           params["root"] = params.root || root
-          params[from_param_key] = from_path
           params["to_path"] = to_path
+          
+          // var from_param_key = "from_path";
+          // var params = sign(options)
+          // if(cb == null){
+          //   cb = args
+          // }else{
+          //   set_args(params, args);
+          //   if (params.hasOwnProperty('from_copy_ref')) {
+          //     delete params['from_copy_ref'];
+          //     from_param_key = 'from_copy_ref';
+          //            }
+          // }
+
           var args = {
             "method": "POST",
             "headers": { "content-type": "application/x-www-form-urlencoded" },

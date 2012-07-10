@@ -7,6 +7,7 @@ describe("all", function(){
   var app_cfg = JSON.parse(fs.readFileSync(__dirname + "/config/app.json"))
   var app     = dbox.app(app_cfg)
   var client;
+  var ref;
   
   before(function(done){
     var app_cfg = JSON.parse(fs.readFileSync(__dirname + "/config/app.json"))
@@ -85,8 +86,25 @@ describe("all", function(){
       done()
     })
   })
+  
+  it("should get refrence from file from cpref", function(done) {
+    client.cpref("myrenamedfile.txt", function(status, reply){
+      status.should.eql(200)
+      reply.should.have.property('expires')
+      reply.should.have.property('copy_ref')
+      ref = reply
+      done()
+    })
+  })
+  
+  it("should copy file from ref", function(done) {
+    client.cp(ref, "myclonefilefromref.txt", function(status, reply){
+      status.should.eql(200)
+      done()
+    })
+  })
     
-  it("should remove file", function(done) {
+  it("should remove renamed file", function(done) {
     client.rm("myrenamedfile.txt", function(status, reply){
       status.should.eql(200)
       done()
@@ -100,25 +118,12 @@ describe("all", function(){
     })
   })
   
-  // it("should copy from reference file", function(done) {
-  //   client.cpref("myclonefile.txt", function(status, reply){
-  //     status.should.eql(200)
-  //     client.cp(reply, "myclonefromreffile.txt", function(status, reply){
-  //       status.should.eql(200)
-  //       done()
-  //     })      
-  //   })
-  // })
-  
-  // it("should copy from reference file", function(done) {
-  //   client.cpref("myclonefile.txt", function(status, reply){
-  //     status.should.eql(200)
-  //     client.cp(reply, "myclonefromreffile.txt", function(status, reply){
-  //       status.should.eql(200)
-  //       done()
-  //     })      
-  //   })
-  // })
+  it("should remove cloned file from ref", function(done) {
+    client.rm("myclonefilefromref.txt", function(status, reply){
+      status.should.eql(200)
+      done()
+    })
+  })
   
   after(function(){
     //console.log("after step")
