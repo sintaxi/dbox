@@ -28,7 +28,7 @@ OR, if you just want to start playing with the library run...
 
 `dbox` methods (where dbox is set from requiring the dbox library)...
 
-    app
+    app                 <-- creates application object
     
 `app` methods (where app is created from the above `app` call)...
 
@@ -79,7 +79,7 @@ Authorization is a three step process.
 
 a) Get a request token...
 
-    app.request_token(function(status, request_token){
+    app.requesttoken(function(status, request_token){
       console.log(request_token)
     })
 
@@ -89,13 +89,13 @@ b) User must visit the url to grant authorization to the client...
 
 c) Generate our access token with the request token...
 
-    app.access_token(request_token, function(status, access_token){
+    app.accesstoken(request_token, function(status, access_token){
       console.log(access_token)
     })
 
 ### Step 3
 
-    var client = app.createClient(access_token)
+    var client = app.client(access_token)
 
 Now we have a client that gives us access to all the api functionality.
 
@@ -470,9 +470,9 @@ output of `metadata` returns...
       "size": "762.5 KB"
     } 
 
-### copyref(path, [options,] callback)
+### cpref(path, [options,] callback)
 
-    client.copy_ref("song.mp3", function(status, reply){
+    client.cpref("song.mp3", function(status, reply){
       console.log(reply)
     })
 
