@@ -35,8 +35,6 @@ OR, if you just want to start playing with the library run...
     requesttoken        <-- creates request token for getting request token and authorization url
     accesstoken         <-- creates access token for creating a client object
     client              <-- creates client object with access to users dropbox account
-
-*note* - step 2 of authentication
     
 `client` methods (where client is created from the above `client` call)...
 
@@ -61,7 +59,7 @@ OR, if you just want to start playing with the library run...
 
 ## How to Use
 
-Creating a functional `dbox` client is a three step process.
+Creating a functional `dbox` client is a four step process.
 
 1. create an `app` using application credentials provided by dropbox
 2. obtain request token to use for generation access token
