@@ -19,7 +19,7 @@ exports.app = function(config){
  
   return {
 
-    request_token: function(cb){
+    requesttoken: function(cb){
       var signature = sign({})
       var args = {
         "method": "POST",
@@ -34,7 +34,7 @@ exports.app = function(config){
       })
     },
 
-    access_token: function(options, cb){
+    accesstoken: function(options, cb){
       var params = sign(options)
       var args = {
         "method": "POST",
@@ -47,7 +47,8 @@ exports.app = function(config){
       })
     },
 
-    createClient: function(options){
+    // creates client object
+    client: function(options){
       var options = options
 
       return {
@@ -84,6 +85,7 @@ exports.app = function(config){
 
         get: function(path, args, cb){
           var params = sign(options)
+          
           if(cb == null){
             cb = args
           }else{
@@ -100,13 +102,12 @@ exports.app = function(config){
           })
         },
 
-        createReadStream: function(path, args) {
-
+        stream: function(path, args) {
+          var params = sign(options);
+          
           for(var attr in args)(function(attr){
             options[attr] = args[attr]
           })(attr)
-
-          var params = sign(options);
 
           var args = {
             "method": "GET",

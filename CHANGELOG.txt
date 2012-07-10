@@ -4,6 +4,11 @@
   - adds streaming
   - adds readdir
   - fixes param collision issues
+  - API changes
+  - changes `cp` command to take cpref object as first argument
+  - changes 'createClient' to 'client'
+  - changes 'request_token' to 'requesttoken'
+  - changes 'access_token' to 'accesstoken'
 
 0.4.3
   - return the stream from request

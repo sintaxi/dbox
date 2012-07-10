@@ -1,6 +1,6 @@
 # dbox 
 
-### Important Notice - dbox API has changed between `v0.3.x` and `v0.4.x`. It is highly recommended you upgrade.
+### Important Notice - dbox API has changed between `v0.4.x` and `v0.5.x`. It is highly recommended you upgrade.
 
 ## Installation
 
@@ -24,13 +24,49 @@ OR, if you just want to start playing with the library run...
 
     npm install dbox
 
+## API Overview
+
+`dbox` methods (where dbox is set from requiring the dbox library)...
+
+    app
+    
+`app` methods (where app is created from the above `app` call)...
+
+    requesttoken        <-- creates request token for getting request token and authorization url
+    accesstoken         <-- creates access token for creating a client object
+    client              <-- creates client object with access to users dropbox account
+
+*note* - step 2 of authentication
+    
+`client` methods (where client is created from the above `client` call)...
+
+    account             <-- view account
+    mkdir               <-- make directory
+    mv                  <-- move file or directory
+    cp                  <-- copy file or directory
+    rm                  <-- remove file or directory
+    put                 <-- upload file
+    get                 <-- download file
+    metadata            <-- get file or directory information
+    revisions           <-- get revision history
+    restore             <-- restore previous version
+    search              <-- search directory
+    shares              <-- create link to view file
+    media               <-- create streamable link to file
+    thumbnails          <-- get thumbnail of file
+    copyref             <-- create copy reference to file
+    delta               <-- get list of delta entries
+    stream              <-- creates readable stream
+    readdir             <-- recursively reads directory
+
 ## How to Use
 
 Creating a functional `dbox` client is a three step process.
 
-1. Create an App
-2. Obtain Request Token
-3. Create a Client using a Request Token
+1. create an `app` using application credentials provided by dropbox
+2. obtain request token to use for generation access token
+3. have user visit authorization URL to grant access to your application
+4. create a client using access token that was generated earlier
 
 ### Step 1
 
@@ -434,7 +470,7 @@ output of `metadata` returns...
       "size": "762.5 KB"
     } 
 
-### copy_ref(path, [options,] callback)
+### copyref(path, [options,] callback)
 
     client.copy_ref("song.mp3", function(status, reply){
       console.log(reply)

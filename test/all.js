@@ -12,22 +12,22 @@ describe("all", function(){
   before(function(done){
     var app_cfg = JSON.parse(fs.readFileSync(__dirname + "/config/app.json"))
     var token   = JSON.parse(fs.readFileSync(__dirname + "/config/access_token.json"))
-    client = app.createClient(token)
+    client = app.client(token)
     client.account(function(status, account){
       if(status == 200){
         console.log("Found valid access token. Continue with tests...")
         done()
       }else{
         console.log("No valid token. Must do OAuth handshake...")
-        app.request_token(function(status, request_token){
+        app.requesttoken(function(status, request_token){
           prompt.start()
           prompt.get(['please authorize application at the following url and enter when done\n' + request_token.authorize_url], function (err, result) {
             if (err) { return 1 }
-            app.access_token(request_token, function(status, access_token){
+            app.accesstoken(request_token, function(status, access_token){
               console.log(access_token)
               fs.writeFile(__dirname + "/config/access_token.json", JSON.stringify(access_token), function(err){
                 if (err) throw err;
-                client = app.createClient(access_token)
+                client = app.client(access_token)
                 done()
               })
             })
