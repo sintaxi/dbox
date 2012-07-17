@@ -501,7 +501,7 @@ output of `reply` returns...
 
 ## License
 
-Copyright 2011 Brock Whitten
+Copyright 2011 Chloi Inc.
 All rights reserved.
 
 Permission is hereby granted, free of charge, to any person
