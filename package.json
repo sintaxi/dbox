@@ -21,6 +21,9 @@
   ],
   "keywords": ["dropbox", "sdk", "s3"],
   "main": "./dbox.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha -t 30000 test/all.js"
+  },
   "repository": { 
     "type": "git",
     "url": "https://github.com/sintaxi/node-dbox.git"
