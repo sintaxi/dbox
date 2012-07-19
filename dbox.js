@@ -164,7 +164,7 @@ exports.app = function(config){
         readdir: function (path, callback) {
           var results = [],
           REQUEST_CONCURRENCY_DELAY = 200,
-          callbacks = 0
+          callbacks = 0,
           self = this;
           //
           // Remark: REQUEST_CONCURRENCY_DELAY represents the millisecond,
