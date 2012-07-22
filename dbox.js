@@ -177,7 +177,7 @@ exports.app = function(config){
             // by wrapping each depth level in a setTimeout delay
             //
             setTimeout(function(){
-              self.client.metadata(path, function (status, reply) {
+              self.metadata(path, function (status, reply) {
                 //
                 // If we have found any contents on this level of the folder
                 //
