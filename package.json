@@ -17,7 +17,8 @@
     { "name": "Sam Nguyen", "email": "samxnguyen@gmail.com" },
     { "name": "Marak Squires", "email": "marak.squires@gmail.com" },
     { "name": "Paul Ledbetter", "email": "mledbetter.paul@gmail.com" },
-    { "name": "James Allen", "email": "jamesallen0108@gmail.com" }
+    { "name": "James Allen", "email": "jamesallen0108@gmail.com" },
+    { "name": "Jesper Lindstrøm Nielsen", "email": "me@jstroem.com" }
   ],
   "keywords": ["dropbox", "sdk", "s3"],
   "main": "./dbox.js",
