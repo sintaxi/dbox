@@ -97,9 +97,10 @@ exports.app = function(config){
             "url": "https://api-content.dropbox.com/1/files/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params),
             "encoding": null
           }
-          return request(args, function(e, r, b){
-            cb(r.statusCode, b, JSON.parse( r.headers['x-dropbox-metadata'] ) )
-          })
+          return request(args, function(e, r, b) {
+            var headers = (r.headers['x-dropbox-metadata'] !== undefined) ? JSON.parse(r.headers['x-dropbox-metadata']) : {};
+            cb(r.statusCode, b, headers);
+          });
         },
 
         stream: function(path, args) {
