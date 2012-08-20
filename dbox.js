@@ -98,7 +98,7 @@ exports.app = function(config){
             "encoding": null
           }
           return request(args, function(e, r, b){
-            cb(r.statusCode, b, r.headers['x-dropbox-metadata'])
+            cb(r.statusCode, b, JSON.parse( r.headers['x-dropbox-metadata'] ) )
           })
         },
 
@@ -177,7 +177,7 @@ exports.app = function(config){
             // by wrapping each depth level in a setTimeout delay
             //
             setTimeout(function(){
-              self.client.metadata(path, function (status, reply) {
+              self.metadata(path, function (status, reply) {
                 //
                 // If we have found any contents on this level of the folder
                 //
