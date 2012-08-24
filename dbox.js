@@ -61,7 +61,7 @@ exports.app = function(config){
             "body": qs.stringify(params)
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
           })
         },
         
@@ -79,7 +79,7 @@ exports.app = function(config){
             "body": qs.stringify(params)
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
           })
         },
 
@@ -135,7 +135,7 @@ exports.app = function(config){
             "body": body 
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
           })
         },
 
@@ -220,7 +220,7 @@ exports.app = function(config){
             "url": "https://api.dropbox.com/1/revisions/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
           })
         },
 
@@ -245,7 +245,7 @@ exports.app = function(config){
             "body": qs.stringify(params)
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
           })
         },
 
@@ -270,7 +270,7 @@ exports.app = function(config){
             "body": body
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
           })
         },
 
@@ -292,7 +292,7 @@ exports.app = function(config){
             "body": body
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
           })
         },
 
@@ -314,7 +314,7 @@ exports.app = function(config){
             "body": body
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
           })
         },
 
@@ -330,7 +330,7 @@ exports.app = function(config){
             "url": "https://api.dropbox.com/1/copy_ref/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
           })
         },
 
@@ -390,7 +390,7 @@ exports.app = function(config){
             "body": qs.stringify(params)
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
           })
         },
 
@@ -413,7 +413,7 @@ exports.app = function(config){
           }
 
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
           })
         },
 
@@ -433,7 +433,7 @@ exports.app = function(config){
             "body": qs.stringify(params)
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
           })
         },
 
@@ -453,7 +453,7 @@ exports.app = function(config){
             "body": qs.stringify(params)
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
           })
         }
       }
