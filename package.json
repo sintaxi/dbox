@@ -19,7 +19,8 @@
     { "name": "Paul Ledbetter", "email": "mledbetter.paul@gmail.com" },
     { "name": "James Allen", "email": "jamesallen0108@gmail.com" },
     { "name": "Jesper Lindstrøm Nielsen", "email": "me@jstroem.com" },
-    { "name": "Rob Ellis", "email": "rob@chloi.io" }
+    { "name": "Rob Ellis", "email": "rob@chloi.io" },
+    { "name": "Jeremiah Condon", "email": "jeremy@grit-design.com" }
   ],
   "keywords": ["dropbox", "sdk", "s3"],
   "main": "./dbox.js",
