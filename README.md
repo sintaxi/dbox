@@ -498,6 +498,18 @@ output of `reply` returns...
         [ '/bar', [Object] ]
       ]
     }
+    
+### readdir(path, callback)
+
+Get an array of paths for all files and directories found in the given path. The method calls recursively to dropbox so it can take a long time to evaluate.
+    
+    client.readdir('/', function(status, reply){
+        console.log(reply)
+    })
+
+Output of `readdir` returns...
+    
+    ['/','/foo','/bar']
 
 ## License
 
