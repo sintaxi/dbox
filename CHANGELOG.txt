@@ -1,4 +1,19 @@
-0.5.0
+v0.5.5
+  - updates get method to follow some paradigm as other methods
+
+v0.5.4
+  - minor bug fixes
+
+v0.5.3
+  - updates readme for readdir method
+
+v0.5.2
+  - fixes undefined JSON.parse errors
+
+v0.5.1
+  - adds JSON.parse to medata header information
+
+v0.5.0
   - adds tests
   - API change. copy_ref now called cpref
   - adds streaming
@@ -10,40 +25,40 @@
   - changes 'request_token' to 'requesttoken'
   - changes 'access_token' to 'accesstoken'
 
-0.4.3
+v0.4.3
   - return the stream from request
 
-0.4.2
+v0.4.2
   - better docs  
 
-0.4.1
+v0.4.1
   - adds support for copying from copy_ref
 
-0.4.0
+v0.4.0
   - overhaul to the API
   - improved docs
 
-0.3.1
+v0.3.1
   - adds support for delta
   - adds support for copy_ref
 
-0.3.0
+v0.3.0
   - adds better binary file support
   - use querystring.parse
 
-0.2.2
+v0.2.2
   - updates request
   - forces buffer output for get and thumbnails
 
-0.2.1
+v0.2.1
   - fixes double encoding issue
   - changes url endpoint
 
-0.2.0
+v0.2.0
   - adds authorize_url method
 
-0.1.1
+v0.1.1
   - fixes encoding issue
 
-0.1.0
+v0.1.0
   - inception
