@@ -1,4 +1,4 @@
-l.DS_Store
+.DS_Store
 node_modules
 test/config/app.json
 test/config/access_token.json
