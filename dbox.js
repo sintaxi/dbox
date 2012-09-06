@@ -98,8 +98,12 @@ exports.app = function(config){
             "encoding": null
           }
           return request(args, function(e, r, b) {
-            var headers = (r.headers['x-dropbox-metadata'] !== undefined) ? JSON.parse(r.headers['x-dropbox-metadata']) : {};
-            cb(r.statusCode, b, headers);
+            if (e) {
+                cb(null, null, null);
+            } else {
+                var headers = (r.headers['x-dropbox-metadata'] !== undefined) ? JSON.parse(r.headers['x-dropbox-metadata']) : {};
+                cb(r.statusCode, b, headers);
+            }
           });
         },
 
@@ -155,7 +159,11 @@ exports.app = function(config){
             // 304 response with an empty body when the 'hash' option
             // is provided and there have been no changes since the
             // hash was computed
-            cb(e ? null : r.statusCode, r.statusCode == 304 ? {} : JSON.parse(b))
+            if (e) {
+                cb(null, null)
+            } else {
+                cb(r.statusCode, r.statusCode == 304 ? {} : JSON.parse(b))
+            }
           })
         },
 
@@ -348,7 +356,12 @@ exports.app = function(config){
             "encoding": null
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, b, r.headers['x-dropbox-metadata'])
+            if (e) {
+                cb(null, null, null)
+            } else {
+                var headers = (r.headers['x-dropbox-metadata'] !== undefined) ? JSON.parse(r.headers['x-dropbox-metadata']) : {};
+                cb(r.statusCode, b, headers)
+            }
           })
         },
 
