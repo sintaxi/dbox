@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/sintaxi/node-dbox.png)](http://travis-ci.org/sintaxi/node-dbox)
 # dbox 
 
 ### Important Notice - dbox API has changed between `v0.4.x` and `v0.5.x`. It is highly recommended you upgrade.
