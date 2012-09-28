@@ -201,7 +201,6 @@ exports.app = function(config){
                 //
                 if (reply.contents) {
                   reply.contents.forEach(function (item) {
-                    console.log("item:", item);
                     //
                     // Add the item into our results array (details or path)
                     //
