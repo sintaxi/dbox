@@ -177,7 +177,8 @@ exports.app = function(config){
             callback = options;
             options = options || {};
           }
-          options.recursive = (options.recursive !== false);
+          options.recursive = (options.recursive !== false);    // default true
+          options.details = (options.details === true);         // default false
 
           var results = [],
           REQUEST_CONCURRENCY_DELAY = 200,
@@ -200,10 +201,11 @@ exports.app = function(config){
                 //
                 if (reply.contents) {
                   reply.contents.forEach(function (item) {
+                    console.log("item:", item);
                     //
-                    // Add the item into our results array
+                    // Add the item into our results array (details or path)
                     //
-                    results.push(item.path);
+                    results.push(options.details ? item : item.path);
                     //
                     // If we have encountered another folder, we can recurse on it
                     //
