@@ -15,6 +15,7 @@ var set_args = function (options, args) {
 exports.app = function(config){
 
   var sign = oauth(config.app_key, config.app_secret)
+
   var root = config.root || "sandbox"
  
   return {
@@ -168,9 +169,16 @@ exports.app = function(config){
         },
 
         //
-        // Recursively loads a dropbox folder
+        // Loads a dropbox folder
+        // (recursive by default)
         //
-        readdir: function (path, callback) {
+        readdir: function (path, options, callback) {
+          if (arguments.length < 3) {
+            callback = options;
+            options = options || {};
+          }
+          options.recursive = (options.recursive !== false);
+
           var results = [],
           REQUEST_CONCURRENCY_DELAY = 200,
           callbacks = 0,
@@ -197,9 +205,9 @@ exports.app = function(config){
                     //
                     results.push(item.path);
                     //
-                    // If we have encountered another folder, we are going to recurse on it
+                    // If we have encountered another folder, we can recurse on it
                     //
-                    if (item.is_dir) {
+                    if (item.is_dir && options.recursive) {
                       load(item.path);
                     }
                   });
@@ -211,7 +219,7 @@ exports.app = function(config){
               });
             }, REQUEST_CONCURRENCY_DELAY)
           }
-          console.log('warn: recursively loading data from dropbox...this may take some time');
+          if (options.recursive) console.log('warn: recursively loading data from dropbox...this may take some time');
           load(path, results);
         },
 
