@@ -1,5 +1,6 @@
 .DS_Store
 node_modules
+demo/node_modules
 test/config/app.json
 test/config/access_token.json
 tmp
