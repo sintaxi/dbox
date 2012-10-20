@@ -170,11 +170,24 @@ exports.app = function(config){
         //
         // Recursively loads a dropbox folder
         //
-        readdir: function (path, callback) {
+        readdir: function (path, args, cb) {
           var results = [],
           REQUEST_CONCURRENCY_DELAY = 200,
           callbacks = 0,
-          self = this;
+          errors = 0,
+          self = this,
+          opts = {
+            files: args.files !== null ? args.dir : true,
+            dirs: args.dirs !== null ? args.dir : true,
+            mime_type: (args.mime_type === null ? new RegExp(".+","i") :
+                       (args.mime_type instanceof RegExp ? args.mime_type :
+                       new RegExp( (args.mime_type.indexOf('/') >= 0 ? args.mime_type : args.mime_type + "/.+" ), "i" )))
+          };
+          
+          if(cb == null){
+            cb = args
+          }
+          
           //
           // Remark: REQUEST_CONCURRENCY_DELAY represents the millisecond,
           // delay between outgoing requests to dropbox
@@ -190,29 +203,28 @@ exports.app = function(config){
                 //
                 // If we have found any contents on this level of the folder
                 //
-                if (reply.contents) {
+                if (reply !== null && reply.contents) {
                   reply.contents.forEach(function (item) {
                     //
                     // Add the item into our results array
                     //
-                    results.push(item.path);
+                    if ((item.is_dir && opts.dirs) || (!item.is_dir && opts.files && opts.mime_type.test(item.mime_type))) results.push(item);
                     //
                     // If we have encountered another folder, we are going to recurse on it
                     //
-                    if (item.is_dir) {
-                      load(item.path);
-                    }
+                    if (item.is_dir) load(item.path);
                   });
+                } else {
+                    errors++;
                 }
                 callbacks--;
                 if (callbacks === 0) {
-                  callback(status, results);
+                  cb(errors, results);
                 }
               });
             }, REQUEST_CONCURRENCY_DELAY)
           }
-          console.log('warn: recursively loading data from dropbox...this may take some time');
-          load(path, results);
+          load(path);
         },
 
         revisions: function(path, args, cb){
