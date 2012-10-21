@@ -1,0 +1,22 @@
+extends layout
+
+block content
+	h2 Welcome 
+		a(href=account.referral_link, target="_blank") #{account.display_name}
+
+
+	div#dropbox
+		.row
+			.span6.offset6.btn-toolbar
+				button.btn.pull-right Create folder
+		.row
+			table.table.table-hover.table-striped
+				thead
+					tr
+						th Path
+						th Size
+						th Modified
+				tbody.resultTable
+
+block js
+	script(src='/javascripts/view.js')

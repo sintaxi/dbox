@@ -1,0 +1,39 @@
+extends layout
+
+block content
+	h2 Setup
+	p 
+		| Before using the node-dbox demo you'll need to create an Dropbox app. Follow this 
+		a(href='https://www.dropbox.com/developers/apps', target='_blank') link 
+		| to create an Dropbox app.
+	p Once you have created the app please fill out the informations below.
+	form.form-inline.app-setup(action='/json/setupApp')
+		input.input-medium(type='text', name='app_key', placeholder='App key')
+		&nbsp
+		input.input-medium(type='text', name='app_secret', placeholder='App secret')
+		&nbsp
+		label.radio.inline
+			input(type='radio', value="sandbox", name="root", checked="checked")
+			| App folder
+		label.radio.inline
+			input(type='radio', value="dropbox", name="root")
+			| Full dropbox
+		&nbsp
+		button.btn(type='submit') Create link
+
+	div(class='access' + (authorize_url ? '' : ' hide' ))
+		p
+			| Before you can view your dropbox app you'll need to give access for the app to get your info.
+			| This is done by giving pushing this 
+			a.appAccessLink(href= authorize_url,target="_blank",title="Give app access") link 
+			| and accepting that the app is getting access to your info.
+		p After accepting, click below to generate your accesstoken and start the node-dbox demo.
+
+
+		div.well.span3.offset4.access-token
+			button.btn.btn-large.btn-block.btn-primary(href='/json/generateAccessToken',data-loading-text='Loading...') Generate access token
+		div
+
+block js
+	script(src='/javascripts/index.js')
+
