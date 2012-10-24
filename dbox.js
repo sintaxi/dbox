@@ -110,9 +110,7 @@ exports.app = function(config){
         stream: function(path, args) {
           var params = sign(options);
           
-          for(var attr in args)(function(attr){
-            options[attr] = args[attr]
-          })(attr)
+          set_args(params, args);
 
           var args = {
             "method": "GET",
@@ -122,7 +120,7 @@ exports.app = function(config){
 
           return request(args);
 
-        },
+        },        
 
         put: function(path, body, args, cb){
           var params = sign(options)
