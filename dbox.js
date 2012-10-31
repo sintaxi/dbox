@@ -2,6 +2,15 @@ var request = require("request")
 var oauth   = require("./lib/oauth")
 var qs      = require("querystring")
 
+function parseJSON(str) {
+    var obj;
+    try {
+        obj = JSON.parse(str);
+    } catch (e) {
+        return obj = {};
+    }
+    return obj;
+}
 
 var set_args = function (options, args) {
   for(var attr in args) {
@@ -61,7 +70,7 @@ exports.app = function(config){
             "body": qs.stringify(params)
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
           })
         },
         
@@ -79,7 +88,7 @@ exports.app = function(config){
             "body": qs.stringify(params)
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
           })
         },
 
@@ -101,7 +110,7 @@ exports.app = function(config){
             if (e) {
                 cb(null, null, null);
             } else {
-                var headers = (r.headers['x-dropbox-metadata'] !== undefined) ? JSON.parse(r.headers['x-dropbox-metadata']) : {};
+                var headers = (r.headers['x-dropbox-metadata'] !== undefined) ? parseJSON(r.headers['x-dropbox-metadata']) : {};
                 cb(r.statusCode, b, headers);
             }
           });
@@ -139,7 +148,7 @@ exports.app = function(config){
             "body": body 
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
           })
         },
 
@@ -162,7 +171,7 @@ exports.app = function(config){
             if (e) {
                 cb(null, null)
             } else {
-                cb(r.statusCode, r.statusCode == 304 ? {} : JSON.parse(b))
+                cb(r.statusCode, r.statusCode == 304 ? {} : parseJSON(b))
             }
           })
         },
@@ -228,7 +237,7 @@ exports.app = function(config){
             "url": "https://api.dropbox.com/1/revisions/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
           })
         },
 
@@ -253,7 +262,7 @@ exports.app = function(config){
             "body": qs.stringify(params)
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
           })
         },
 
@@ -278,7 +287,7 @@ exports.app = function(config){
             "body": body
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
           })
         },
 
@@ -300,7 +309,7 @@ exports.app = function(config){
             "body": body
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
           })
         },
 
@@ -322,7 +331,7 @@ exports.app = function(config){
             "body": body
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
           })
         },
 
@@ -338,7 +347,7 @@ exports.app = function(config){
             "url": "https://api.dropbox.com/1/copy_ref/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
           })
         },
 
@@ -359,7 +368,7 @@ exports.app = function(config){
             if (e) {
                 cb(null, null, null)
             } else {
-                var headers = (r.headers['x-dropbox-metadata'] !== undefined) ? JSON.parse(r.headers['x-dropbox-metadata']) : {};
+                var headers = (r.headers['x-dropbox-metadata'] !== undefined) ? parseJSON(r.headers['x-dropbox-metadata']) : {};
                 cb(r.statusCode, b, headers)
             }
           })
@@ -403,7 +412,7 @@ exports.app = function(config){
             "body": qs.stringify(params)
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
           })
         },
 
@@ -426,7 +435,7 @@ exports.app = function(config){
           }
 
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
           })
         },
 
@@ -446,7 +455,7 @@ exports.app = function(config){
             "body": qs.stringify(params)
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
           })
         },
 
@@ -466,7 +475,7 @@ exports.app = function(config){
             "body": qs.stringify(params)
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : JSON.parse(b))
+            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
           })
         }
       }
