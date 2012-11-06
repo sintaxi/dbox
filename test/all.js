@@ -21,7 +21,14 @@ describe("all", function(){
       done()
     })
   })
-  
+
+  it("should get a directory", function(done) {
+    client.get("myfirstdir", function(status, reply){
+      status.should.eql(200)
+      done()
+    })
+  })
+    
   it("should remove a directory", function(done) {
     client.rm("myfirstdir", function(status, reply){
       status.should.eql(200)
