@@ -211,7 +211,7 @@ exports.app = function(config){
               });
             }, REQUEST_CONCURRENCY_DELAY)
           }
-          console.log('warn: recursively loading data from dropbox...this may take some time');
+          // console.log('warn: recursively loading data from dropbox...this may take some time');
           load(path, results);
         },
 
