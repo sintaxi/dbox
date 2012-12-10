@@ -1,3 +1,6 @@
+v0.5.6
+  - test cleanups. bug fixes
+
 v0.5.5
   - updates get method to follow some paradigm as other methods
 
