@@ -1,7 +1,7 @@
 {
   "name": "dbox",
   "description": "NodeJS SDK for the Dropbox API",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "author": "Brock Whitten <brock@sintaxi.com>",
   "contributors": [
     { "name": "Brock Whitten", "email": "brock@sintaxi.com" },
@@ -20,7 +20,9 @@
     { "name": "James Allen", "email": "jamesallen0108@gmail.com" },
     { "name": "Jesper Lindstrøm Nielsen", "email": "me@jstroem.com" },
     { "name": "Rob Ellis", "email": "rob@chloi.io" },
-    { "name": "Jeremiah Condon", "email": "jeremy@grit-design.com" }
+    { "name": "Jeremiah Condon", "email": "jeremy@grit-design.com" },
+    { "name": "John Titus", "email": "john.titus@gmail.com" },
+    { "name": "Ben Buckman", "email": "ben.buckman@docusign.com" }
   ],
   "keywords": ["dropbox", "sdk", "s3"],
   "main": "./dbox.js",

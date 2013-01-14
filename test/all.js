@@ -1,39 +1,17 @@
-var fs     = require("fs")
-var should = require("should")
-var prompt = require("prompt")
-var dbox = require("../dbox")
+var fs      = require("fs")
+var should  = require("should")
+var dbox    = require("../dbox")
+var helpers = require("./config/helpers")
 
 describe("all", function(){
   var app_cfg = JSON.parse(fs.readFileSync(__dirname + "/config/app.json"))
   var app     = dbox.app(app_cfg)
-  var client;
-  var ref;
+  var client, ref;
   
   before(function(done){
-    var app_cfg = JSON.parse(fs.readFileSync(__dirname + "/config/app.json"))
-    var token   = JSON.parse(fs.readFileSync(__dirname + "/config/access_token.json"))
-    client = app.client(token)
-    client.account(function(status, account){
-      if(status == 200){
-        console.log("Found valid access token. Continue with tests...")
-        done()
-      }else{
-        console.log("No valid token. Must do OAuth handshake...")
-        app.requesttoken(function(status, request_token){
-          prompt.start()
-          prompt.get(['please authorize application at the following url and enter when done\n' + request_token.authorize_url], function (err, result) {
-            if (err) { return 1 }
-            app.accesstoken(request_token, function(status, access_token){
-              console.log(access_token)
-              fs.writeFile(__dirname + "/config/access_token.json", JSON.stringify(access_token), function(err){
-                if (err) throw err;
-                client = app.client(access_token)
-                done()
-              })
-            })
-          })
-        })        
-      }
+    helpers.auth(app, function(access_token){
+      client = app.client(access_token)
+      done()
     })
   })
 
@@ -43,7 +21,7 @@ describe("all", function(){
       done()
     })
   })
-  
+    
   it("should remove a directory", function(done) {
     client.rm("myfirstdir", function(status, reply){
       status.should.eql(200)
