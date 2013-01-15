@@ -2,11 +2,11 @@ var fs      = require("fs")
 var prompt  = require("prompt")
 
 exports.auth = function(app, callback){
-  var token = JSON.parse(fs.readFileSync(__dirname + "/access_token.json"))
-  var client = app.client(token)
+  var app_setup = JSON.parse(fs.readFileSync(__dirname + "/app.json"))
+  var client = app.client(app_setup)
   client.account(function(status, account){
     if(status == 200){
-      callback(token)
+      callback(app_setup)
     }else{
       app.requesttoken(function(status, request_token){
         prompt.start()
