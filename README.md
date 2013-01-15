@@ -69,7 +69,9 @@ Creating a functional `dbox` client is a four step process.
 ### Step 1
 
     var dbox  = require("dbox")
-    var app   = dbox.app({ "app_key": "umdez34678ck01fx", "app_secret": "tjm89017sci88o6" })
+    var app   = dbox.app({ "app_key": "umdez34678ck01fx", "app_secret": "tjm89017sci88o6"[, "root": "sandbox"] })
+
+_NB_: the root parameter is to change between the two different dropbox app types there are. `sandbox` means 'App folder' and `dropbox` means 'Full Dropbox', default is `sandbox`.
     
 ### Step 2
 

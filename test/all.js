@@ -9,6 +9,7 @@ describe("all", function(){
   var client, ref;
   
   before(function(done){
+    this.timeout(20000); //To give the testrunner time for accepting the dropbox access
     helpers.auth(app, function(access_token){
       client = app.client(access_token)
       done()
