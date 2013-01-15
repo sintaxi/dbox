@@ -179,24 +179,18 @@ exports.app = function(config){
         // Loads a dropbox folder
         // (recursive by default)
         //
-        readdir: function (path, args, cb) {
+        readdir: function (path, options, callback) {
+          if (arguments.length < 3) {
+            callback = options;
+            options = options || {};
+          }
+          options.recursive = (options.recursive !== false);    // default true
+          options.details = (options.details === true);         // default false
+
           var results = [],
           REQUEST_CONCURRENCY_DELAY = 200,
           callbacks = 0,
-          errors = 0,
-          self = this,
-          opts = {
-            files: args.files !== null ? args.dir : true,
-            dirs: args.dirs !== null ? args.dir : true,
-            mime_type: (args.mime_type === null ? new RegExp(".+","i") :
-                       (args.mime_type instanceof RegExp ? args.mime_type :
-                       new RegExp( (args.mime_type.indexOf('/') >= 0 ? args.mime_type : args.mime_type + "/.+" ), "i" )))
-          };
-          
-          if(cb == null){
-            cb = args
-          }
-          
+          self = this;
           //
           // Remark: REQUEST_CONCURRENCY_DELAY represents the millisecond,
           // delay between outgoing requests to dropbox
@@ -212,28 +206,28 @@ exports.app = function(config){
                 //
                 // If we have found any contents on this level of the folder
                 //
-                if (reply !== null && reply.contents) {
+                if (reply.contents) {
                   reply.contents.forEach(function (item) {
                     //
                     // Add the item into our results array (details or path)
                     //
-                    if ((item.is_dir && opts.dirs) || (!item.is_dir && opts.files && opts.mime_type.test(item.mime_type))) results.push(item);
+                    results.push(options.details ? item : item.path);
                     //
                     // If we have encountered another folder, we can recurse on it
                     //
-                    if (item.is_dir) load(item.path);
+                    if (item.is_dir && options.recursive) {
+                      load(item.path);
+                    }
                   });
-                } else {
-                    errors++;
                 }
                 callbacks--;
                 if (callbacks === 0) {
-                  cb(errors, results);
+                  callback(status, results);
                 }
               });
             }, REQUEST_CONCURRENCY_DELAY)
           }
-          load(path);
+          load(path, results);
         },
 
         revisions: function(path, args, cb){
@@ -495,4 +489,3 @@ exports.app = function(config){
   } 
 
 }
-
