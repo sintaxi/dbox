@@ -179,18 +179,7 @@ exports.app = function(config){
         // Loads a dropbox folder
         // (recursive by default)
         //
-<<<<<<< HEAD
         readdir: function (path, args, cb) {
-=======
-        readdir: function (path, options, callback) {
-          if (arguments.length < 3) {
-            callback = options;
-            options = options || {};
-          }
-          options.recursive = (options.recursive !== false);    // default true
-          options.details = (options.details === true);         // default false
-
->>>>>>> 3e9e257584c8738d61b600ba8abf2794a39b1ce5
           var results = [],
           REQUEST_CONCURRENCY_DELAY = 200,
           callbacks = 0,
