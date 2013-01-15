@@ -1,4 +1,5 @@
 { 
   "app_key": "",
-  "app_secret": ""
+  "app_secret": "",
+  "root": "sandbox"
 }
