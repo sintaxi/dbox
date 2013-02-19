@@ -142,7 +142,7 @@ exports.app = function(config){
 
           var args = {
             "method": "PUT",
-            "headers": { "content-length": body.length },
+            "headers": { "content-length": body ? body.length : 0 },
             "url": "https://api-content.dropbox.com/1/files_put/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params),
             "body": body 
           }
