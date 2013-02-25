@@ -1,11 +1,11 @@
 var fs      = require("fs")
 var should  = require("should")
-var dbox    = require("../dbox")
+var dbox    = require("../")
 var helpers = require("./config/helpers")
 
 describe("all", function(){
   var app_cfg = JSON.parse(fs.readFileSync(__dirname + "/config/app.json"))
-  // app_cfg.scope = "myscope"
+  app_cfg.scope = "myscope"
   var app     = dbox.app(app_cfg)
   var client, ref;
   
@@ -116,6 +116,15 @@ describe("all", function(){
     client.put("myrenamedfile.txt", "Hello Brazil", function(status, reply){
       status.should.eql(200)
       reply.should.have.property("path", "/myrenamedfile.txt")
+      done()
+    })
+  })
+  
+  it("should read directory", function(done) {
+    client.readdir("/", function(status, reply){
+      status.should.eql(200)
+      reply.should.include('/myemptyfile.txt')
+      reply.should.include('/myrenamedfile.txt')
       done()
     })
   })

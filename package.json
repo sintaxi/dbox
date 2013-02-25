@@ -25,7 +25,7 @@
     { "name": "Ben Buckman", "email": "ben.buckman@docusign.com" }
   ],
   "keywords": ["dropbox", "sdk", "s3"],
-  "main": "./dbox.js",
+  "main": "./lib/dbox.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha -t 30000 test/all.js"
   },
