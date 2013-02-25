@@ -143,9 +143,12 @@ exports.app = function(config){
           var args = {
             "method": "PUT",
             "headers": { "content-length": body.length },
-            "url": "https://api-content.dropbox.com/1/files_put/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params),
-            "body": body 
+            "url": "https://api-content.dropbox.com/1/files_put/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
           }
+          
+          // do not send empty body
+          if(body.length > 0) args["body"] = body
+          
           return request(args, function(e, r, b){
             cb(e ? null : r.statusCode, e ? null : parseJSON(b))
           })
