@@ -61,7 +61,7 @@ exports.app = function(config){
           })
         },
         
-        delta: function(args, callback){
+        delta: function(args, cb){
           if(!cb){
             cb   = args
             args = null
@@ -69,17 +69,21 @@ exports.app = function(config){
           
           var signature = helpers.sign(options, args)
           
+          var body = qs.stringify(signature)
           var args = {
             "method": "POST",
-            "headers": { "content-type": "application/x-www-form-urlencoded" },
+            "headers": { 
+              "content-type": "application/x-www-form-urlencoded",
+              "content-length": body.length
+            },
             "url": "https://api.dropbox.com/1/delta",
-            "body": qs.stringify(body)
+            "body": body
           }
           
           return request(args, function(e, r, b){
             var status = e ? null : r.statusCode
             var output = helpers.parseJSON(b)
-            callback(status, output)
+            cb(status, output)
           })
         },
 

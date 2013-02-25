@@ -5,7 +5,7 @@ var helpers = require("./config/helpers")
 
 describe("all", function(){
   var app_cfg = JSON.parse(fs.readFileSync(__dirname + "/config/app.json"))
-  //app_cfg.scope = "myscope"
+  // app_cfg.scope = "myscope"
   var app     = dbox.app(app_cfg)
   var client, ref;
   
@@ -142,6 +142,13 @@ describe("all", function(){
     client.cp(ref, "myclonefilefromref.txt", function(status, reply){
       status.should.eql(200)
       reply.should.have.property("path", "/myclonefilefromref.txt")
+      done()
+    })
+  })
+  
+  it("should get delta results", function(done) {
+    client.delta(function(status, reply){
+      status.should.eql(200)
       done()
     })
   })
