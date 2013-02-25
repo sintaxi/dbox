@@ -14,7 +14,14 @@ describe("all", function(){
       done()
     })
   })
-
+  
+  it("should get account object", function(done) {
+    client.account(function(status, reply){
+      status.should.eql(200)
+      done()
+    })
+  })
+  
   it("should create a directory", function(done) {
     client.mkdir("myfirstdir", function(status, reply){
       status.should.eql(200)
@@ -31,6 +38,41 @@ describe("all", function(){
   
   it("should create a file", function(done) {
     client.put("myfirstfile.txt", "Hello World", function(status, reply){
+      status.should.eql(200)
+      done()
+    })
+  })
+  
+  it("should get metadatq of file", function(done) {
+    client.metadata("myfirstfile.txt", function(status, reply){
+      status.should.eql(200)
+      done()
+    })
+  })
+  
+  it("should get a share for file", function(done) {
+    client.shares("myfirstfile.txt", function(status, reply){
+      status.should.eql(200)
+      done()
+    })
+  })
+  
+  it("should get revisions for file", function(done) {
+    client.revisions("myfirstfile.txt", function(status, reply){
+      status.should.eql(200)
+      done()
+    })
+  })
+  
+  it("should get media of file", function(done) {
+    client.media("myfirstfile.txt", function(status, reply){
+      status.should.eql(200)
+      done()
+    })
+  })
+  
+  it("should search for file file", function(done) {
+    client.search("/", "myfirstfile", function(status, reply){
       status.should.eql(200)
       done()
     })

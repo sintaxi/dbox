@@ -1,16 +1,5 @@
 var request = require("request")
-var oauth   = require("./lib/oauth")
 var qs      = require("querystring")
-
-function parseJSON(str) {
-    var obj;
-    try {
-        obj = JSON.parse(str);
-    } catch (e) {
-        return obj = {};
-    }
-    return obj;
-}
 
 var set_args = function (options, args) {
   for(var attr in args) {
@@ -22,15 +11,13 @@ var set_args = function (options, args) {
 };
 
 exports.app = function(config){
-
-  var sign = oauth(config.app_key, config.app_secret)
-
-  var root = config.root || "sandbox"
+  var root   = config.root  || "sandbox"
+  var helpers = require("./lib/helpers")(config)
  
   return {
 
     requesttoken: function(cb){
-      var signature = sign({})
+      var signature = helpers.sign({})
       var args = {
         "method": "POST",
         "headers": { "content-type": "application/x-www-form-urlencoded" },
@@ -45,7 +32,7 @@ exports.app = function(config){
     },
 
     accesstoken: function(options, cb){
-      var params = sign(options)
+      var params = helpers.sign(options)
       var args = {
         "method": "POST",
         "headers": { "content-type": "application/x-www-form-urlencoded" },
@@ -63,108 +50,139 @@ exports.app = function(config){
 
       return {
         account: function(cb){
-          var params = sign(options)
+          var signature = helpers.sign(options)
           var args = {
             "method": "POST",
             "headers": { "content-type": "application/x-www-form-urlencoded" },
             "url": "https://api.dropbox.com/1/account/info",
-            "body": qs.stringify(params)
+            "body": qs.stringify(signature)
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
+            cb(e ? null : r.statusCode, e ? null : helpers.parseJSON(b))
           })
         },
         
-        delta: function(args, cb){
-          var params = sign(options)
-          if(cb == null){
-            cb = args
-          }else{
-            set_args(params, args);
+        delta: function(args, callback){
+          if(!cb){
+            cb   = args
+            args = null
           }
+          
+          var signature = helpers.sign(options, args)
+          
           var args = {
             "method": "POST",
             "headers": { "content-type": "application/x-www-form-urlencoded" },
             "url": "https://api.dropbox.com/1/delta",
-            "body": qs.stringify(params)
+            "body": qs.stringify(body)
           }
+          
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
+            var status = e ? null : r.statusCode
+            var output = helpers.parseJSON(b)
+            callback(status, output)
           })
         },
 
         get: function(path, args, cb){
-          var params = sign(options)
-          
-          if(cb == null){
-            cb = args
-          }else{
-            set_args(params, args);
+          if(!cb){
+            cb   = args
+            args = null
           }
+          
+          var signature = helpers.sign(options, args)
+          
+          var url = helpers.url({
+            hostname: "api-content.dropbox.com",
+            action: "files",
+            path: path,
+            query: signature
+          })
 
           var args = {
             "method": "GET",
-            "url": "https://api-content.dropbox.com/1/files/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params),
+            "url": url,
             "encoding": null
           }
+          
           return request(args, function(e, r, b) {
             if (e) {
-                cb(null, null, null);
+               cb(null, null, null);
             } else {
-                var headers = (r.headers['x-dropbox-metadata'] !== undefined) ? parseJSON(r.headers['x-dropbox-metadata']) : {};
-                cb(r.statusCode, b, headers);
+              var headers = (r.headers['x-dropbox-metadata'] !== undefined) ? helpers.parseJSON(r.headers['x-dropbox-metadata']) : {};
+              cb(r.statusCode, b, headers);
             }
-          });
+          })
         },
 
-        stream: function(path, args) {
-          var params = sign(options);
+        stream: function(path, args) {          
+          var signature = helpers.sign(options, args)
           
-          set_args(params, args);
+          var url = helpers.url({
+            hostname: "api-content.dropbox.com",
+            action: "files",
+            path: path,
+            query: signature
+          })
 
           var args = {
             "method": "GET",
-            "url": "https://api-content.dropbox.com/1/files/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params),
+            "url": url,
             "encoding": null
           }
 
           return request(args);
-
         },        
 
         put: function(path, body, args, cb){
-          var params = sign(options)
-          if(cb == null){
-            cb = args
-          }else{
-            set_args(params, args);
+          if(!cb){
+            cb   = args
+            args = null
           }
+          
+          var signature = helpers.sign(options, args)
 
+          var url = helpers.url({
+            hostname: "api-content.dropbox.com",
+            action: "files_put",
+            path: path,
+            query: signature
+          })
+          
           var args = {
             "method": "PUT",
             "headers": { "content-length": body.length },
-            "url": "https://api-content.dropbox.com/1/files_put/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
+            "url": url
           }
           
           // do not send empty body
           if(body.length > 0) args["body"] = body
           
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
+            cb(e ? null : r.statusCode, e ? null : helpers.parseJSON(b))
           })
         },
 
         metadata: function(path, args, cb){
-          var params = sign(options);
-          if(cb == null){
-            cb = args
-          }else{
-            set_args(params, args);
+          if(!cb){
+            cb   = args
+            args = null
           }
+          
+          var signature = helpers.sign(options, args)
+          
+          var url = helpers.url({
+            hostname: "api.dropbox.com",
+            action: "metadata",
+            path: path,
+            query: signature
+          })
+          
           var args = {
             "method": "GET",
-            "url": "https://api.dropbox.com/1/metadata/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
+            "url": url
           }
+          
           return request(args, function(e, r, b){
             // this is a special case, since the dropbox api returns a
             // 304 response with an empty body when the 'hash' option
@@ -173,7 +191,7 @@ exports.app = function(config){
             if (e) {
                 cb(null, null)
             } else {
-                cb(r.statusCode, r.statusCode == 304 ? {} : parseJSON(b))
+                cb(r.statusCode, r.statusCode == 304 ? {} : helpers.parseJSON(b))
             }
           })
         },
@@ -234,257 +252,321 @@ exports.app = function(config){
         },
 
         revisions: function(path, args, cb){
-          var params = sign(options)
-          if(cb == null){
-            cb = args
-          }else{
-            set_args(params, args);
+          if(!cb){
+            cb   = args
+            args = null
           }
+          
+          var signature = helpers.sign(options, args)
+          
+          var url = helpers.url({
+            hostname: "api.dropbox.com",
+            action: "revisions",
+            path: path,
+            query: signature
+          })
 
           var args = {
             "method": "GET",
-            "url": "https://api.dropbox.com/1/revisions/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
+            "url": url
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
+            cb(e ? null : r.statusCode, e ? null : helpers.parseJSON(b))
           })
         },
 
         restore: function(path, rev, args, cb){
-          var params = sign(options)
-          if(cb == null){
-            cb = args
-          }else{
-            set_args(params, args);
+          if(!cb){
+            cb   = args
+            args = null
           }
+          
+          var signature    = helpers.sign(options, args)
+          signature["rev"] = rev
+          
+          var url = helpers.url({
+            hostname: "api.dropbox.com",
+            action: "restore",
+            path: path
+          })
 
-          params["rev"] = rev
-
-          var body = qs.stringify(params)
+          var body = qs.stringify(signature)
+          
           var args = {
             "method": "POST",
             "headers": {
               "content-type": "application/x-www-form-urlencoded",
               "content-length": body.length
             },
-            "url": "https://api.dropbox.com/1/restore/" + (params.root || root) + "/" + qs.escape(path), // + "?" + qs.stringify(params)
-            "body": qs.stringify(params)
+            "url": url,
+            "body": body
           }
+          
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
+            cb(e ? null : r.statusCode, e ? null : helpers.parseJSON(b))
           })
         },
 
         search: function(path, query, args, cb){
-          var params = sign(options)
-          if(cb == null){
-            cb = args
-          }else{
-            set_args(params, args);
+          
+          if(!cb){
+            cb   = args
+            args = null
           }
+          
+          var signature = helpers.sign(options, args)
+          signature["query"] = query
+          
+          var url = helpers.url({
+            hostname: "api.dropbox.com",
+            action: "search",
+            path: path
+          })
 
-          params["query"] = query
-
-          var body = qs.stringify(params)
+          var body = qs.stringify(signature)
           var args = {
             "method": "POST",
             "headers": {
               "content-type": "application/x-www-form-urlencoded",
               "content-length": body.length 
             },
-            "url": "https://api.dropbox.com/1/search/" + (params.root || root) + "/" + qs.escape(path),
+            "url": url,
             "body": body
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
+            cb(e ? null : r.statusCode, e ? null : helpers.parseJSON(b))
           })
         },
 
         shares: function(path, args, cb){
-          var params = sign(options)
-          if(cb == null){
-            cb = args
-          }else{
-            set_args(params, args);
+          if(!cb){
+            cb   = args
+            args = null
           }
-          var body = qs.stringify(params)
+          
+          var signature = helpers.sign(options, args)
+          
+          var url = helpers.url({
+            hostname: "api.dropbox.com",
+            action: "shares",
+            path: path
+          })
+          
+          var body = qs.stringify(signature)
+          
           var args = {
             "method": "POST",
             "headers": {
               "content-type": "application/x-www-form-urlencoded",
               "content-length": body.length 
             },
-            "url": "https://api.dropbox.com/1/shares/" + (params.root || root) + "/" + qs.escape(path), 
+            "url": url, 
             "body": body
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
+            cb(e ? null : r.statusCode, e ? null : helpers.parseJSON(b))
           })
         },
 
         media: function(path, args, cb){
-          var params = sign(options)
-          if(cb == null){
-            cb = args
-          }else{
-            set_args(params, args);
+          if(!cb){
+            cb   = args
+            args = null
           }
-          var body = qs.stringify(params)
+          
+          var signature = helpers.sign(options, args)
+          
+          var url = helpers.url({
+            hostname: "api.dropbox.com",
+            action: "media",
+            path: path
+          })
+          
+          var body = qs.stringify(signature)
+          
           var args = {
             "method": "POST",
             "headers": {
               "content-type": "application/x-www-form-urlencoded",
               "content-length": body.length 
             },
-            "url": "https://api.dropbox.com/1/media/" + (params.root || root) + "/" + qs.escape(path), 
+            "url": url,
             "body": body
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
+            cb(e ? null : r.statusCode, e ? null : helpers.parseJSON(b))
           })
         },
 
         cpref: function(path, args, cb){
-          var params = sign(options);
-          if(cb == null){
-            cb = args
-          }else{
-            set_args(params, args);
+          if(!cb){
+            cb   = args
+            args = null
           }
+          
+          var signature = helpers.sign(options, args)
+          
+          var url = helpers.url({
+            hostname: "api.dropbox.com",
+            action: "copy_ref",
+            path: path,
+            query: signature
+          })
+          
           var args = {
             "method": "GET",
-            "url": "https://api.dropbox.com/1/copy_ref/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params)
+            "url": url
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
+            cb(e ? null : r.statusCode, e ? null : helpers.parseJSON(b))
           })
         },
 
         thumbnails: function(path, args, cb){
-          var params = sign(options)
-          if(cb == null){
-            cb = args
-          }else{
-            set_args(params, args);
+          if(!cb){
+            cb   = args
+            args = null
           }
+          
+          var signature = helpers.sign(options, args)
+          
+          var url = helpers.url({
+            hostname: "api-content.dropbox.com",
+            action: "thumbnails",
+            path: path,
+            query: signature
+          })
 
           var args = {
             "method": "GET",
-            "url": "https://api-content.dropbox.com/1/thumbnails/" + (params.root || root) + "/" + qs.escape(path) + "?" + qs.stringify(params),
+            "url": url,
             "encoding": null
           }
+          
           return request(args, function(e, r, b){
             if (e) {
                 cb(null, null, null)
             } else {
-                var headers = (r.headers['x-dropbox-metadata'] !== undefined) ? parseJSON(r.headers['x-dropbox-metadata']) : {};
+                var headers = (r.headers['x-dropbox-metadata'] !== undefined) ? helpers.parseJSON(r.headers['x-dropbox-metadata']) : {};
                 cb(r.statusCode, b, headers)
             }
           })
         },
 
         cp: function(from_path, to_path, args, cb){
-          var params = sign(options)
-          
-          if(cb == null){
-            cb = args
-          }else{
-            set_args(params, args);
+          if(!cb){
+            cb   = args
+            args = null
           }
+
+          var signature = helpers.sign(options, args)
           
           // check for copy ref
           if(from_path.hasOwnProperty("copy_ref")){
-            params['from_copy_ref'] = from_path["copy_ref"]
+            signature['from_copy_ref'] = from_path["copy_ref"]
           }else{
-            params['from_path'] = from_path
+            signature['from_path'] = from_path
           }
           
-          params["root"] = params.root || root
-          params["to_path"] = to_path
+          signature["root"]    = root       // API quirk that this is reqired for this call
+          signature["to_path"] = to_path
           
-          // var from_param_key = "from_path";
-          // var params = sign(options)
-          // if(cb == null){
-          //   cb = args
-          // }else{
-          //   set_args(params, args);
-          //   if (params.hasOwnProperty('from_copy_ref')) {
-          //     delete params['from_copy_ref'];
-          //     from_param_key = 'from_copy_ref';
-          //            }
-          // }
+          var body = qs.stringify(signature)
 
           var args = {
             "method": "POST",
-            "headers": { "content-type": "application/x-www-form-urlencoded" },
+            "headers": { 
+              "content-type": "application/x-www-form-urlencoded",
+              "content-length": body.length
+            },
             "url": "https://api.dropbox.com/1/fileops/copy",
-            "body": qs.stringify(params)
+            "body": body
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
+            cb(e ? null : r.statusCode, e ? null : helpers.parseJSON(b))
           })
         },
 
         mv: function(from_path, to_path, args, cb){
-          var params = sign(options)
-          if(cb == null){
-            cb = args
-          }else{
-            set_args(params, args);
+          if(!cb){
+            cb   = args
+            args = null
           }
-          params["root"] = params.root || root
-          params["from_path"] = from_path
-          params["to_path"] = to_path
 
+          var signature = helpers.sign(options, args)
+          
+          signature["root"]      = root          // API quirk that this is reqired for this call
+          signature["from_path"] = from_path
+          signature["to_path"]   = to_path
+
+          var body = qs.stringify(signature)
+          
           var args = {
             "method": "POST",
-            "headers": { "content-type": "application/x-www-form-urlencoded" },
+            "headers": { 
+              "content-type": "application/x-www-form-urlencoded",
+              "content-length": body.length
+            },
             "url": "https://api.dropbox.com/1/fileops/move",
-            "body": qs.stringify(params)
+            "body": body
           }
 
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
+            cb(e ? null : r.statusCode, e ? null : helpers.parseJSON(b))
           })
         },
 
         rm: function(path, args, cb){
-          var params = sign(options)
-          if(cb == null){
-            cb = args
-          }else{
-            set_args(params, args);
+          if(!cb){
+            cb   = args
+            args = null
           }
-          params["root"] = params["root"] || root
-          params["path"] = path
+
+          var signature = helpers.sign(options, args)
+          
+          signature["root"] = root
+          signature["path"] = path
+          
+          var body = qs.stringify(signature)
+          
           var args = {
             "method": "POST",
-            "headers": { "content-type": "application/x-www-form-urlencoded" },
+            "headers": { 
+              "content-type": "application/x-www-form-urlencoded",
+              "content-length": body.length
+            },
             "url": "https://api.dropbox.com/1/fileops/delete",
-            "body": qs.stringify(params)
+            "body": body
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
+            cb(e ? null : r.statusCode, e ? null : helpers.parseJSON(b))
           })
         },
 
         mkdir: function(path, args, cb){
-          var params = sign(options)
-          if(cb == null){
-            cb = args
-          }else{
-            set_args(params, args);
+          if(!cb){
+            cb   = args
+            args = null
           }
-          params["root"] = params.root || root
-          params["path"] = path
+
+          var signature = helpers.sign(options, args)
+          
+          signature["root"] = root
+          signature["path"] = path
+          
+          var body = qs.stringify(signature)
+          
           var args = {
             "method": "POST",
-            "headers": { "content-type": "application/x-www-form-urlencoded" },
+            "headers": { 
+              "content-type": "application/x-www-form-urlencoded",
+              "content-length": body.length
+            },
             "url": "https://api.dropbox.com/1/fileops/create_folder",
-            "body": qs.stringify(params)
+            "body": body
           }
           return request(args, function(e, r, b){
-            cb(e ? null : r.statusCode, e ? null : parseJSON(b))
+            cb(e ? null : r.statusCode, e ? null : helpers.parseJSON(b))
           })
         }
       }
