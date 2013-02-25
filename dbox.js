@@ -1,15 +1,6 @@
 var request = require("request")
 var qs      = require("querystring")
 
-var set_args = function (options, args) {
-  for(var attr in args) {
-    if (args.hasOwnProperty(attr)){
-      options[attr] = args[attr];
-    }
-  }
-  return options;
-};
-
 exports.app = function(config){
   var root   = config.root  || "sandbox"
   var helpers = require("./lib/helpers")(config)
@@ -18,11 +9,15 @@ exports.app = function(config){
 
     requesttoken: function(cb){
       var signature = helpers.sign({})
+      var body = qs.stringify(signature)
       var args = {
         "method": "POST",
-        "headers": { "content-type": "application/x-www-form-urlencoded" },
+        "headers": { 
+          "content-type": "application/x-www-form-urlencoded",
+          "content-length": body.length
+        },
         "url": "https://api.dropbox.com/1/oauth/request_token",
-        "body": qs.stringify(signature)
+        "body": body
       }
       return request(args, function(e, r, b){
         var obj = qs.parse(b)
@@ -32,12 +27,16 @@ exports.app = function(config){
     },
 
     accesstoken: function(options, cb){
-      var params = helpers.sign(options)
+      var signature = helpers.sign(options)
+      var body = qs.stringify(signature)
       var args = {
         "method": "POST",
-        "headers": { "content-type": "application/x-www-form-urlencoded" },
+        "headers": { 
+          "content-type": "application/x-www-form-urlencoded",
+          "content-length": body.length
+        },
         "url": "https://api.dropbox.com/1/oauth/access_token",
-        "body": qs.stringify(params)
+        "body": body
       }
       return request(args, function(e, r, b){
         cb(e ? null : r.statusCode, qs.parse(b))
@@ -465,11 +464,11 @@ exports.app = function(config){
           if(from_path.hasOwnProperty("copy_ref")){
             signature['from_copy_ref'] = from_path["copy_ref"]
           }else{
-            signature['from_path'] = from_path
+            signature['from_path'] = helpers.filePath(from_path)
           }
           
           signature["root"]    = root       // API quirk that this is reqired for this call
-          signature["to_path"] = to_path
+          signature["to_path"] = helpers.filePath(to_path)
           
           
           var url = helpers.url({
@@ -502,8 +501,8 @@ exports.app = function(config){
           var signature = helpers.sign(options, args)
           
           signature["root"]      = root          // API quirk that this is reqired for this call
-          signature["from_path"] = from_path
-          signature["to_path"]   = to_path
+          signature["from_path"] = helpers.filePath(from_path)
+          signature["to_path"]   = helpers.filePath(to_path)
           
           var url = helpers.url({
             hostname: "api.dropbox.com",
@@ -536,7 +535,7 @@ exports.app = function(config){
           var signature = helpers.sign(options, args)
           
           signature["root"] = root
-          signature["path"] = path
+          signature["path"] = helpers.filePath(path)
           
           var url = helpers.url({
             hostname: "api.dropbox.com",
@@ -568,8 +567,7 @@ exports.app = function(config){
           var signature = helpers.sign(options, args)
           
           signature["root"] = root
-          signature["path"] = path
-          
+          signature["path"] = helpers.filePath(path)
           
           var url = helpers.url({
             hostname: "api.dropbox.com",

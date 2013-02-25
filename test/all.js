@@ -5,6 +5,7 @@ var helpers = require("./config/helpers")
 
 describe("all", function(){
   var app_cfg = JSON.parse(fs.readFileSync(__dirname + "/config/app.json"))
+  //app_cfg.scope = "myscope"
   var app     = dbox.app(app_cfg)
   var client, ref;
   
@@ -18,6 +19,8 @@ describe("all", function(){
   it("should get account object", function(done) {
     client.account(function(status, reply){
       status.should.eql(200)
+      reply.should.have.property("display_name")
+      reply.should.have.property("email")
       done()
     })
   })
@@ -25,6 +28,7 @@ describe("all", function(){
   it("should create a directory", function(done) {
     client.mkdir("myfirstdir", function(status, reply){
       status.should.eql(200)
+      reply.should.have.property("path", "/myfirstdir")
       done()
     })
   })
@@ -32,6 +36,7 @@ describe("all", function(){
   it("should remove a directory", function(done) {
     client.rm("myfirstdir", function(status, reply){
       status.should.eql(200)
+      reply.should.have.property("path", "/myfirstdir")
       done()
     })
   })
@@ -39,6 +44,7 @@ describe("all", function(){
   it("should create a file", function(done) {
     client.put("myfirstfile.txt", "Hello World", function(status, reply){
       status.should.eql(200)
+      reply.should.have.property("path", "/myfirstfile.txt")
       done()
     })
   })
@@ -46,6 +52,7 @@ describe("all", function(){
   it("should get metadatq of file", function(done) {
     client.metadata("myfirstfile.txt", function(status, reply){
       status.should.eql(200)
+      reply.should.have.property("path", "/myfirstfile.txt")
       done()
     })
   })
@@ -53,6 +60,7 @@ describe("all", function(){
   it("should get a share for file", function(done) {
     client.shares("myfirstfile.txt", function(status, reply){
       status.should.eql(200)
+      reply.should.have.property("url")
       done()
     })
   })
@@ -60,6 +68,7 @@ describe("all", function(){
   it("should get revisions for file", function(done) {
     client.revisions("myfirstfile.txt", function(status, reply){
       status.should.eql(200)
+      reply[0].should.have.property("path", "/myfirstfile.txt")
       done()
     })
   })
@@ -67,13 +76,15 @@ describe("all", function(){
   it("should get media of file", function(done) {
     client.media("myfirstfile.txt", function(status, reply){
       status.should.eql(200)
+      reply.should.have.property("url")
       done()
     })
   })
   
-  it("should search for file file", function(done) {
+  it("should search for file", function(done) {
     client.search("/", "myfirstfile", function(status, reply){
       status.should.eql(200)
+      reply[0].should.have.property("path", "/myfirstfile.txt")
       done()
     })
   })
@@ -88,6 +99,7 @@ describe("all", function(){
   it("should move a file", function(done) {
     client.mv("myfirstfile.txt", "myrenamedfile.txt", function(status, reply){
       status.should.eql(200)
+      reply.should.have.property("path", "/myrenamedfile.txt")
       done()
     })
   })
@@ -103,6 +115,7 @@ describe("all", function(){
   it("should change file", function(done) {
     client.put("myrenamedfile.txt", "Hello Brazil", function(status, reply){
       status.should.eql(200)
+      reply.should.have.property("path", "/myrenamedfile.txt")
       done()
     })
   })
@@ -110,6 +123,7 @@ describe("all", function(){
   it("should copy file", function(done) {
     client.cp("myrenamedfile.txt", "myclonefile.txt", function(status, reply){
       status.should.eql(200)
+      reply.should.have.property("path", "/myclonefile.txt")
       done()
     })
   })
@@ -127,6 +141,7 @@ describe("all", function(){
   it("should copy file from ref", function(done) {
     client.cp(ref, "myclonefilefromref.txt", function(status, reply){
       status.should.eql(200)
+      reply.should.have.property("path", "/myclonefilefromref.txt")
       done()
     })
   })
@@ -134,6 +149,7 @@ describe("all", function(){
   it("should remove renamed file", function(done) {
     client.rm("myrenamedfile.txt", function(status, reply){
       status.should.eql(200)
+      reply.should.have.property("path", "/myrenamedfile.txt")
       done()
     })
   })
@@ -141,6 +157,7 @@ describe("all", function(){
   it("should remove cloned file", function(done) {
     client.rm("myclonefile.txt", function(status, reply){
       status.should.eql(200)
+      reply.should.have.property("path", "/myclonefile.txt")
       done()
     })
   })
