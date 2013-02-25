@@ -471,6 +471,12 @@ exports.app = function(config){
           signature["root"]    = root       // API quirk that this is reqired for this call
           signature["to_path"] = to_path
           
+          
+          var url = helpers.url({
+            hostname: "api.dropbox.com",
+            action: "fileops/copy"
+          })
+          
           var body = qs.stringify(signature)
 
           var args = {
@@ -479,7 +485,7 @@ exports.app = function(config){
               "content-type": "application/x-www-form-urlencoded",
               "content-length": body.length
             },
-            "url": "https://api.dropbox.com/1/fileops/copy",
+            "url": url,
             "body": body
           }
           return request(args, function(e, r, b){
@@ -498,6 +504,11 @@ exports.app = function(config){
           signature["root"]      = root          // API quirk that this is reqired for this call
           signature["from_path"] = from_path
           signature["to_path"]   = to_path
+          
+          var url = helpers.url({
+            hostname: "api.dropbox.com",
+            action: "fileops/move"
+          })
 
           var body = qs.stringify(signature)
           
@@ -507,7 +518,7 @@ exports.app = function(config){
               "content-type": "application/x-www-form-urlencoded",
               "content-length": body.length
             },
-            "url": "https://api.dropbox.com/1/fileops/move",
+            "url": url,
             "body": body
           }
 
@@ -527,6 +538,11 @@ exports.app = function(config){
           signature["root"] = root
           signature["path"] = path
           
+          var url = helpers.url({
+            hostname: "api.dropbox.com",
+            action: "fileops/delete"
+          })
+          
           var body = qs.stringify(signature)
           
           var args = {
@@ -535,7 +551,7 @@ exports.app = function(config){
               "content-type": "application/x-www-form-urlencoded",
               "content-length": body.length
             },
-            "url": "https://api.dropbox.com/1/fileops/delete",
+            "url": url,
             "body": body
           }
           return request(args, function(e, r, b){
@@ -554,6 +570,12 @@ exports.app = function(config){
           signature["root"] = root
           signature["path"] = path
           
+          
+          var url = helpers.url({
+            hostname: "api.dropbox.com",
+            action: "fileops/create_folder"
+          })
+          
           var body = qs.stringify(signature)
           
           var args = {
@@ -562,7 +584,7 @@ exports.app = function(config){
               "content-type": "application/x-www-form-urlencoded",
               "content-length": body.length
             },
-            "url": "https://api.dropbox.com/1/fileops/create_folder",
+            "url": url,
             "body": body
           }
           return request(args, function(e, r, b){
