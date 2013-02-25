@@ -1,3 +1,7 @@
+v0.6.0
+  - major refactor
+  - adds optional scope
+  
 v0.5.7
   - fixes bug with empty buffer on put
 
