@@ -36,6 +36,13 @@ describe("all", function(){
     })
   })
   
+  it("should upload empty file", function(done) {
+    client.put("myemptyfile.txt", new Buffer(0), function(status, reply){
+      status.should.eql(200)
+      done()
+    })
+  })
+  
   it("should move a file", function(done) {
     client.mv("myfirstfile.txt", "myrenamedfile.txt", function(status, reply){
       status.should.eql(200)
