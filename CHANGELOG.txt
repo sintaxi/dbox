@@ -1,3 +1,6 @@
+v0.5.7
+  - fixes bug with empty buffer on put
+
 v0.5.6
   - test cleanups. bug fixes
 
