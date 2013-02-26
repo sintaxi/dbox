@@ -1,7 +1,9 @@
 .DS_Store
 node_modules
-test/config/app.json
-test/config/access_token.json
+test/config/sandbox/app.json
+test/config/sandbox/access_token.json
+test/config/full/app.json
+test/config/full/access_token.json
 tmp
 *.swp
 *.*~

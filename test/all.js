@@ -4,8 +4,8 @@ var dbox    = require("../")
 var helpers = require("./config/helpers")
 
 describe("all", function(){
-  var app_cfg = JSON.parse(fs.readFileSync(__dirname + "/config/app.json"))
-  app_cfg.scope = "myscope"
+  var root = process.env.ROOT || "sandbox"
+  var app_cfg = JSON.parse(fs.readFileSync(__dirname + "/config/" + root + "/app.json"))
   var app     = dbox.app(app_cfg)
   var client, ref;
   
@@ -32,7 +32,7 @@ describe("all", function(){
       done()
     })
   })
-    
+   
   it("should remove a directory", function(done) {
     client.rm("myfirstdir", function(status, reply){
       status.should.eql(200)
@@ -120,14 +120,14 @@ describe("all", function(){
     })
   })
   
-  it("should read directory", function(done) {
-    client.readdir("/", function(status, reply){
-      status.should.eql(200)
-      reply.should.include('/myemptyfile.txt')
-      reply.should.include('/myrenamedfile.txt')
-      done()
-    })
-  })
+  // it("should read directory", function(done) {
+  //   client.readdir("/", function(status, reply){
+  //     status.should.eql(200)
+  //     reply.should.include('/myemptyfile.txt')
+  //     reply.should.include('/myrenamedfile.txt')
+  //     done()
+  //   })
+  // })
   
   it("should copy file", function(done) {
     client.cp("myrenamedfile.txt", "myclonefile.txt", function(status, reply){
@@ -155,12 +155,14 @@ describe("all", function(){
     })
   })
   
-  it("should get delta results", function(done) {
-    client.delta(function(status, reply){
-      status.should.eql(200)
-      done()
-    })
-  })
+  // it("should get delta results", function(done) {
+  //   client.delta(function(status, reply){
+  //     console.log("delta")
+  //     console.log(reply)
+  //     status.should.eql(200)
+  //     done()
+  //   })
+  // })
     
   it("should remove renamed file", function(done) {
     client.rm("myrenamedfile.txt", function(status, reply){
