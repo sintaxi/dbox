@@ -1,7 +1,7 @@
 {
   "name": "dbox",
   "description": "NodeJS SDK for the Dropbox API",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "author": "Brock Whitten <brock@sintaxi.com>",
   "contributors": [
     { "name": "Brock Whitten", "email": "brock@sintaxi.com" },
@@ -27,7 +27,7 @@
   "keywords": ["dropbox", "sdk", "s3"],
   "main": "./lib/dbox.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha -t 30000 test/all.js"
+    "test": "./node_modules/.bin/mocha -t 120000 test/all.js"
   },
   "repository": { 
     "type": "git",
