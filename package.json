@@ -27,7 +27,7 @@
   "keywords": ["dropbox", "sdk", "s3"],
   "main": "./lib/dbox.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha -t 30000 test/all.js"
+    "test": "./node_modules/.bin/mocha -t 120000 test/all.js"
   },
   "repository": { 
     "type": "git",

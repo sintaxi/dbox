@@ -155,14 +155,12 @@ describe("all", function(){
     })
   })
   
-  // it("should get delta results", function(done) {
-  //   client.delta(function(status, reply){
-  //     console.log("delta")
-  //     console.log(reply)
-  //     status.should.eql(200)
-  //     done()
-  //   })
-  // })
+  it("should get delta results", function(done) {
+    client.delta(function(status, reply){
+      status.should.eql(200)
+      done()
+    })
+  })
     
   it("should remove renamed file", function(done) {
     client.rm("myrenamedfile.txt", function(status, reply){
