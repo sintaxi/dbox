@@ -1,3 +1,7 @@
+v0.6.1
+  - fixes scoping in delta call
+  - delta call now recursive
+
 v0.6.0
   - major refactor
   - adds optional scope
