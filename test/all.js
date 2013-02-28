@@ -158,6 +158,7 @@ describe("all", function(){
   it("should get delta results", function(done) {
     client.delta(function(status, reply){
       status.should.eql(200)
+      reply.should.have.property("reset", true)
       done()
     })
   })
