@@ -1,3 +1,6 @@
+v0.6.2
+  - fixes reset issue on delta
+
 v0.6.1
   - fixes scoping in delta call
   - delta call now recursive
