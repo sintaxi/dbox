@@ -48,7 +48,7 @@ describe("all", function(){
       done()
     })
   })
-  
+
   it("should get metadatq of file", function(done) {
     client.metadata("myfirstfile.txt", function(status, reply){
       status.should.eql(200)

@@ -52,6 +52,8 @@ OR, if you just want to start playing with the library run...
     shares              <-- create link to view file
     media               <-- create streamable link to file
     thumbnails          <-- get thumbnail of file
+    chunk               <-- upload a chunk of a large file
+    commit_chunks       <-- complete a chunked upload
     copyref             <-- create copy reference to file
     delta               <-- get list of delta entries
     stream              <-- creates readable stream
@@ -467,6 +469,57 @@ output of `metadata` returns...
       "mime_type": "image/jpeg",
       "size": "762.5 KB"
     } 
+
+### chunk(body, [options,] cb)
+
+Uploads large files to Dropbox in multiple chunks. Also has the ability to resume if the upload is interrupted. This allows for uploads larger than the /files and /files_put maximum of 150 MB. Note that chunks must be submitted in order, else the response will be a 400 error that includes the current offset.
+
+    client.chunk("some data", {offset: 0, upload_id: null}, function(status, reply){
+      console.dir(reply);
+
+      require('fs').writeFile('koala_small.jpg', reply, function () {
+        console.log('Thumbnail saved!');
+      });
+    })
+
+output of `reply` returns...
+
+    {
+      expires: 'Fri, 25 Oct 2013 04:51:52 +0000',
+      upload_id: 'nLkA-eBpXUcr07JPq_ShRA',
+      offset: 4
+    }
+
+Typical usage:
+
+1. Send your first chunk of your file to `chunk` and receive an upload_id in the reply.
+2. Repeatedly submit subsequent chunks using the upload_id to identify the upload in progress and an offset representing the number of bytes transferred so far.
+3. After each chunk has been uploaded, the server returns a new offset representing the total amount transferred.
+4. After the last chunk, call `commit_chunks` to complete the upload.
+
+### commit_chunks(path, [options,] callback)
+
+Completes an upload initiated by `chunk`. Similar to `put`, but takes an `upload_id` instead of `data`.
+
+    client.commit_chunks(filename, {upload_id: 'nLkA-eBpXUcr07JPq_ShRA'}, function(status, reply){
+      console.dir(reply)
+    })
+    
+output of `reply` returns...
+    
+    {
+      "size": "225.4KB",
+      "rev": "35e97029684fe",
+      "thumb_exists": false,
+      "bytes": 230783,
+      "modified": "Tue, 19 Jul 2011 21:55:38 +0000",
+      "path": "/foo/hello.txt",
+      "is_dir": false,
+      "icon": "page_white_text",
+      "root": "sandbox",
+      "mime_type": "text/plain",
+      "revision": 220823
+    }
 
 ### cpref(path, [options,] callback)
 
