@@ -242,15 +242,15 @@ output of `reply` returns...
 
 Pulls down file (available as a buffer) with its metadata.
 
-    client.get("foo/hello.txt", function(status, reply, metadata){
-      console.log(reply.toString(), metadata)
+    client.get("foo/hello.txt", function(status, reply, headers){
+      console.log(reply.toString(), headers['x-dropbox-metadata']);
     })
 
 output of `reply.toString()` returns...
    
     here is some text
 
-output of `metadata` returns...
+output of `headers['x-dropbox-metadata']` returns...
 
     {
       "revision": 11,
