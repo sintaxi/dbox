@@ -554,7 +554,7 @@ Automatically performs series of `putChunked` calls then `commitChunked` to uplo
         "onBeginChunkUpload":  function(upload_id, chunkSize, chunkOffset) {
             /* could inform user here that chunk upload is beginning */
           },
-        "onEndChunkUpload": function(upload_id, chunkSize, chunkOffset, fileBytesUploaded, fileBytesRemaining) {
+        "onEndChunkUpload": function(status, reply) {
             /* could inform user here that chunk finished uploading */
           },
         "chunkSize": chunkSize
