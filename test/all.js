@@ -8,14 +8,14 @@ describe("all", function(){
   var app_cfg = JSON.parse(fs.readFileSync(__dirname + "/config/" + root + "/app.json"))
   var app     = dbox.app(app_cfg)
   var client, ref;
-  
+
   before(function(done){
     helpers.auth(app, function(access_token){
       client = app.client(access_token)
       done()
     })
   })
-  
+
   it("should get account object", function(done) {
     client.account(function(status, reply){
       status.should.eql(200)
@@ -24,7 +24,7 @@ describe("all", function(){
       done()
     })
   })
-  
+
   it("should create a directory", function(done) {
     client.mkdir("myfirstdir", function(status, reply){
       status.should.eql(200)
@@ -32,7 +32,7 @@ describe("all", function(){
       done()
     })
   })
-   
+
   it("should remove a directory", function(done) {
     client.rm("myfirstdir", function(status, reply){
       status.should.eql(200)
@@ -40,7 +40,7 @@ describe("all", function(){
       done()
     })
   })
-  
+
   it("should create a file", function(done) {
     client.put("myfirstfile.txt", "Hello World", function(status, reply){
       status.should.eql(200)
@@ -48,7 +48,16 @@ describe("all", function(){
       done()
     })
   })
-  
+
+  it("should save from url", function(done) {
+    client.saveurl("myurlfile.txt", "https://raw.githubusercontent.com/sintaxi/dbox/master/README.md", function(status, reply){
+      status.should.eql(200)
+      console.log(reply)
+      reply.should.have.property("job")
+      done()
+    })
+  })
+
   it("should get metadatq of file", function(done) {
     client.metadata("myfirstfile.txt", function(status, reply){
       status.should.eql(200)
@@ -56,7 +65,7 @@ describe("all", function(){
       done()
     })
   })
-  
+
   it("should get a share for file", function(done) {
     client.shares("myfirstfile.txt", function(status, reply){
       status.should.eql(200)
@@ -64,7 +73,7 @@ describe("all", function(){
       done()
     })
   })
-  
+
   it("should get revisions for file", function(done) {
     client.revisions("myfirstfile.txt", function(status, reply){
       status.should.eql(200)
@@ -72,7 +81,7 @@ describe("all", function(){
       done()
     })
   })
-  
+
   it("should get media of file", function(done) {
     client.media("myfirstfile.txt", function(status, reply){
       status.should.eql(200)
@@ -80,7 +89,7 @@ describe("all", function(){
       done()
     })
   })
-  
+
   it("should search for file", function(done) {
     client.search("/", "myfirstfile", function(status, reply){
       status.should.eql(200)
@@ -88,14 +97,14 @@ describe("all", function(){
       done()
     })
   })
-  
+
   it("should upload empty file", function(done) {
     client.put("myemptyfile.txt", new Buffer(0), function(status, reply){
       status.should.eql(200)
       done()
     })
   })
-  
+
   it("should move a file", function(done) {
     client.mv("myfirstfile.txt", "myrenamedfile.txt", function(status, reply){
       status.should.eql(200)
@@ -103,7 +112,7 @@ describe("all", function(){
       done()
     })
   })
-  
+
   it("should get contents of file", function(done) {
     client.get("myrenamedfile.txt", function(status, reply){
       status.should.eql(200)
@@ -111,7 +120,7 @@ describe("all", function(){
       done()
     })
   })
-  
+
   it("should change file", function(done) {
     client.put("myrenamedfile.txt", "Hello Brazil", function(status, reply){
       status.should.eql(200)
@@ -119,7 +128,7 @@ describe("all", function(){
       done()
     })
   })
-  
+
   // it("should read directory", function(done) {
   //   client.readdir("/", function(status, reply){
   //     status.should.eql(200)
@@ -128,7 +137,7 @@ describe("all", function(){
   //     done()
   //   })
   // })
-  
+
   it("should copy file", function(done) {
     client.cp("myrenamedfile.txt", "myclonefile.txt", function(status, reply){
       status.should.eql(200)
@@ -136,7 +145,7 @@ describe("all", function(){
       done()
     })
   })
-  
+
   it("should get refrence from file from cpref", function(done) {
     client.cpref("myrenamedfile.txt", function(status, reply){
       status.should.eql(200)
@@ -146,7 +155,7 @@ describe("all", function(){
       done()
     })
   })
-  
+
   it("should copy file from ref", function(done) {
     client.cp(ref, "myclonefilefromref.txt", function(status, reply){
       status.should.eql(200)
@@ -154,7 +163,7 @@ describe("all", function(){
       done()
     })
   })
-  
+
   it("should get delta results", function(done) {
     client.delta(function(status, reply){
       status.should.eql(200)
@@ -162,7 +171,7 @@ describe("all", function(){
       done()
     })
   })
-    
+
   it("should remove renamed file", function(done) {
     client.rm("myrenamedfile.txt", function(status, reply){
       status.should.eql(200)
@@ -170,7 +179,7 @@ describe("all", function(){
       done()
     })
   })
-  
+
   it("should remove cloned file", function(done) {
     client.rm("myclonefile.txt", function(status, reply){
       status.should.eql(200)
@@ -178,14 +187,14 @@ describe("all", function(){
       done()
     })
   })
-  
+
   it("should remove cloned file from ref", function(done) {
     client.rm("myclonefilefromref.txt", function(status, reply){
       status.should.eql(200)
       done()
     })
   })
-  
+
   after(function(){
     //console.log("after step")
   })

@@ -23,28 +23,29 @@
     { "name": "Jeremiah Condon", "email": "jeremy@grit-design.com" },
     { "name": "John Titus", "email": "john.titus@gmail.com" },
     { "name": "Ben Buckman", "email": "ben.buckman@docusign.com" },
-    { "name": "Zach Ahn", "email": "zach.ahn@gmail.com" }
+    { "name": "Zach Ahn", "email": "zach.ahn@gmail.com" },
+    { "name": "Alex Quiambao", "email": "alexquiambao@gmail.com" }
   ],
   "keywords": ["dropbox", "sdk", "s3"],
   "main": "./lib/dbox.js",
   "scripts": {
      "test": "./node_modules/.bin/mocha -t 120000 test/all.js -R spec"
   },
-  "repository": { 
+  "repository": {
     "type": "git",
     "url": "https://github.com/sintaxi/node-dbox.git"
   },
   "dependencies": {
     "request": "2.9.153"
   },
-  "devDependencies": { 
+  "devDependencies": {
     "mocha": "1.21.4",
     "should": "4.0.4",
     "prompt": "0.1.12"
   },
   "engines": { "node": "*" },
   "licenses" : [
-    { 
+    {
       "type" : "MIT",
       "url" : "https://raw.github.com/sintaxi/node-dbox/master/README.md"
     }
