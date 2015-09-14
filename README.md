@@ -1,6 +1,10 @@
-# dbox
+# dbox 2
 
-A Node.JS convenience wrapper around the Dropbox API. Simplifies OAuth handshake and removes HTTP ceremony.
+A Node.JS convenience wrapper around the Dropbox API  ( with saveurl endpoint  ). Simplifies OAuth handshake and removes HTTP ceremony.
+
+#### Original Repository
+
+https://github.com/sintaxi/dbox
 
 ## Installation
 
@@ -12,7 +16,7 @@ information...
       "name": "yourapplication",
       "version": "0.1.0",
       "dependencies": {
-        "dbox": "0.6.1"
+        "dbox2": "0.6.5"
       }
     }
 
@@ -22,20 +26,20 @@ Then run the following command using npm...
 
 OR, if you just want to start playing with the library run...
 
-    npm install dbox
+    npm install dbox2
 
 ## API Overview
 
-`dbox` methods (where dbox is set from requiring the dbox library)...
+`dbox2` methods (where dbox is set from requiring the dbox library)...
 
     app                 <-- creates application object
-    
+
 `app` methods (where app is created from the above `app` call)...
 
     requesttoken        <-- creates request token for getting request token and authorization url
     accesstoken         <-- creates access token for creating a client object
     client              <-- creates client object with access to users dropbox account
-    
+
 `client` methods (where client is created from the above `client` call)...
 
     account             <-- view account
@@ -44,6 +48,7 @@ OR, if you just want to start playing with the library run...
     cp                  <-- copy file or directory
     rm                  <-- remove file or directory
     put                 <-- upload file
+    saveurl             <-- save a file from the specified URL into Dropbox
     get                 <-- download file
     metadata            <-- get file or directory information
     revisions           <-- get revision history
@@ -68,9 +73,9 @@ Creating a functional `dbox` client is a four step process.
 
 ### Step 1
 
-    var dbox  = require("dbox")
+    var dbox  = require("dbox2")
     var app   = dbox.app({ "app_key": "umdez34678ck01fx", "app_secret": "tjm89017sci88o6" })
-    
+
 ### Step 2
 
 Authorization is a three step process.
@@ -106,18 +111,18 @@ Returns account information.
     client.account(function(status, reply){
       console.log(reply)
     })
-    
+
 output of `reply` returns...
 
-    { 
+    {
       uid: 123456789,
       display_name: 'Brock Whitten',
       email: 'brock@sintaxi.com',
       country: 'CA',
       referral_link: 'https://www.dropbox.com/referrals/NTc0NzYwNDc5',
-      quota_info: { 
-        shared: 1100727791, 
-        quota: 2415919104, 
+      quota_info: {
+        shared: 1100727791,
+        quota: 2415919104,
         normal: 226168599
       }
     }
@@ -175,7 +180,7 @@ Copies a file or directory to a new location.
     client.cp("bar", "baz", function(status, reply){
       console.log(reply)
     })
-    
+
     {
       "size": "0 bytes",
       "rev": "irt77dd3728",
@@ -213,7 +218,7 @@ output of `reply` returns...
       "mime_type": "text/plain",
       "revision": 492341
     }
-    
+
 ### put(path, data, [options,] callback)
 
 Creates or modifies a file with given data. `data` may be a string or a buffer.
@@ -221,9 +226,9 @@ Creates or modifies a file with given data. `data` may be a string or a buffer.
     client.put("foo/hello.txt", "here is some text", function(status, reply){
       console.log(reply)
     })
-    
+
 output of `reply` returns...
-    
+
     {
       "size": "225.4KB",
       "rev": "35e97029684fe",
@@ -238,6 +243,22 @@ output of `reply` returns...
       "revision": 220823
     }
 
+### saveurl(path, url, [options,] callback)
+
+Save a file from the specified URL into Dropbox. If the given path already exists, the file will be renamed to avoid the conflict (e.g. myfile (1).txt).
+
+    client.saveurl("myurlfile.txt", "https://raw.githubusercontent.com/silverbux/dbox/master/README.md", function(status, reply){
+      console.log(reply)
+    })
+
+output of `reply` returns...
+
+    {
+      "status": "PENDING",
+      "job": "ghs5y7p7iR8AAAAAAAAPvQ"
+    }
+
+
 ### get(path, [options,] callback)
 
 Pulls down file (available as a buffer) with its metadata.
@@ -247,7 +268,7 @@ Pulls down file (available as a buffer) with its metadata.
     })
 
 output of `reply.toString()` returns...
-   
+
     here is some text
 
 output of `metadata` returns...
@@ -287,7 +308,7 @@ Retrieves file or directory  metadata.
     })
 
 output of `reply` returns...
-   
+
     {
       "size": "225.4KB",
       "rev": "35e97029684fe",
@@ -317,7 +338,7 @@ Obtains metadata for the previous revisions of a file.
     })
 
 output of `reply` returns...
-  
+
     [
       {
         "is_deleted": true,
@@ -355,7 +376,7 @@ Restores a file path to a previous revision.
     client.revisions("foo/hello.txt", 4, function(status, reply){
       console.log(reply)
     })
-    
+
 output of `reply` returns...
 
     {
@@ -372,7 +393,7 @@ output of `reply` returns...
       "mime_type": "text/plain",
       "size": "0 bytes"
     }
-    
+
 ### search(path, query, [options,] callback)
 
 Returns metadata for all files and directories that match the search query.
@@ -466,7 +487,7 @@ output of `metadata` returns...
       "root": "app_folder",
       "mime_type": "image/jpeg",
       "size": "762.5 KB"
-    } 
+    }
 
 ### cpref(path, [options,] callback)
 
@@ -480,7 +501,7 @@ output of `reply` returns...
       expires: 'Thu, 03 Apr 2042 22:33:49 +0000',
       copy_ref: 'ALGf72Jrc3A0ZTh5MzA4Mg'
     }
-    
+
 ### delta([options,] callback)
 
     client.delta(function(status, reply){
@@ -498,17 +519,17 @@ output of `reply` returns...
         [ '/bar', [Object] ]
       ]
     }
-    
+
 ### readdir(path, callback)
 
 Get an array of paths for all files and directories found in the given path. The method calls recursively to dropbox so it can take a long time to evaluate.
-    
+
     client.readdir('/', function(status, reply){
         console.log(reply)
     })
 
 Output of `readdir` returns...
-    
+
     ['/','/foo','/bar']
 
 ## License
