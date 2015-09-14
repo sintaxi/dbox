@@ -1,6 +1,10 @@
-# dbox
+# dbox 2
 
-A Node.JS convenience wrapper around the Dropbox API. Simplifies OAuth handshake and removes HTTP ceremony.
+A Node.JS convenience wrapper around the Dropbox API  ( with saveurl endpoint  ). Simplifies OAuth handshake and removes HTTP ceremony.
+
+#### Original Repository
+
+https://github.com/sintaxi/dbox
 
 ## Installation
 
@@ -12,7 +16,7 @@ information...
       "name": "yourapplication",
       "version": "0.1.0",
       "dependencies": {
-        "dbox": "0.6.1"
+        "dbox2": "0.6.5"
       }
     }
 
@@ -22,11 +26,11 @@ Then run the following command using npm...
 
 OR, if you just want to start playing with the library run...
 
-    npm install dbox
+    npm install dbox2
 
 ## API Overview
 
-`dbox` methods (where dbox is set from requiring the dbox library)...
+`dbox2` methods (where dbox is set from requiring the dbox library)...
 
     app                 <-- creates application object
 
@@ -69,7 +73,7 @@ Creating a functional `dbox` client is a four step process.
 
 ### Step 1
 
-    var dbox  = require("dbox")
+    var dbox  = require("dbox2")
     var app   = dbox.app({ "app_key": "umdez34678ck01fx", "app_secret": "tjm89017sci88o6" })
 
 ### Step 2
@@ -243,7 +247,7 @@ output of `reply` returns...
 
 Save a file from the specified URL into Dropbox. If the given path already exists, the file will be renamed to avoid the conflict (e.g. myfile (1).txt).
 
-    client.saveurl("myurlfile.txt", "https://raw.githubusercontent.com/sintaxi/dbox/master/README.md", function(status, reply){
+    client.saveurl("myurlfile.txt", "https://raw.githubusercontent.com/silverbux/dbox/master/README.md", function(status, reply){
       console.log(reply)
     })
 
