@@ -23,7 +23,8 @@
     { "name": "Jeremiah Condon", "email": "jeremy@grit-design.com" },
     { "name": "John Titus", "email": "john.titus@gmail.com" },
     { "name": "Ben Buckman", "email": "ben.buckman@docusign.com" },
-    { "name": "Zach Ahn", "email": "zach.ahn@gmail.com" }
+    { "name": "Zach Ahn", "email": "zach.ahn@gmail.com" },
+    { "name": "Mohammad Fares", "email": "faressoft.com@gmail.com" },
   ],
   "keywords": ["dropbox", "sdk", "s3"],
   "main": "./lib/dbox.js",
