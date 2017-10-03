@@ -1,4 +1,4 @@
-# dbox
+# dbox (THIS LIBRARY IS V1 ONLY WHICH IS NOW OBSOLETE!!)
 
 A Node.JS convenience wrapper around the Dropbox API. Simplifies OAuth handshake and removes HTTP ceremony.
 
