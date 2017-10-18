@@ -185,6 +185,13 @@ describe("all", function(){
       done()
     })
   })
+
+  it("should get oauth2 token from oauth1 token", function(done) {
+    client.tokenfromoauth1(function(status, reply){
+      status.should.eql(200)
+      done()
+    })
+  })
   
   after(function(){
     //console.log("after step")
