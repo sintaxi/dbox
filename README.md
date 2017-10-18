@@ -29,13 +29,13 @@ OR, if you just want to start playing with the library run...
 `dbox` methods (where dbox is set from requiring the dbox library)...
 
     app                 <-- creates application object
-    
+
 `app` methods (where app is created from the above `app` call)...
 
     requesttoken        <-- creates request token for getting request token and authorization url
     accesstoken         <-- creates access token for creating a client object
     client              <-- creates client object with access to users dropbox account
-    
+
 `client` methods (where client is created from the above `client` call)...
 
     account             <-- view account
@@ -57,6 +57,12 @@ OR, if you just want to start playing with the library run...
     stream              <-- creates readable stream
     readdir             <-- recursively reads directory
 
+extensions to `client` methods added in this fork...
+
+    putChunked          <-- upload large files in multiple chunks -- uses <https://www.dropbox.com/developers/core/docs#chunked-upload>
+    commitChunked       <-- complete initiated chunked upload -- uses <https://www.dropbox.com/developers/core/docs#commit_chunked_upload>
+    uploadChunked       <-- automatically performs series of `putChunked` calls then `commitChunked` to upload file via chunks
+
 ## How to Use
 
 Creating a functional `dbox` client is a four step process.
@@ -70,7 +76,7 @@ Creating a functional `dbox` client is a four step process.
 
     var dbox  = require("dbox")
     var app   = dbox.app({ "app_key": "umdez34678ck01fx", "app_secret": "tjm89017sci88o6" })
-    
+
 ### Step 2
 
 Authorization is a three step process.
@@ -106,18 +112,18 @@ Returns account information.
     client.account(function(status, reply){
       console.log(reply)
     })
-    
+
 output of `reply` returns...
 
-    { 
+    {
       uid: 123456789,
       display_name: 'Brock Whitten',
       email: 'brock@sintaxi.com',
       country: 'CA',
       referral_link: 'https://www.dropbox.com/referrals/NTc0NzYwNDc5',
-      quota_info: { 
-        shared: 1100727791, 
-        quota: 2415919104, 
+      quota_info: {
+        shared: 1100727791,
+        quota: 2415919104,
         normal: 226168599
       }
     }
@@ -175,7 +181,7 @@ Copies a file or directory to a new location.
     client.cp("bar", "baz", function(status, reply){
       console.log(reply)
     })
-    
+
     {
       "size": "0 bytes",
       "rev": "irt77dd3728",
@@ -213,7 +219,7 @@ output of `reply` returns...
       "mime_type": "text/plain",
       "revision": 492341
     }
-    
+
 ### put(path, data, [options,] callback)
 
 Creates or modifies a file with given data. `data` may be a string or a buffer.
@@ -221,9 +227,9 @@ Creates or modifies a file with given data. `data` may be a string or a buffer.
     client.put("foo/hello.txt", "here is some text", function(status, reply){
       console.log(reply)
     })
-    
+
 output of `reply` returns...
-    
+
     {
       "size": "225.4KB",
       "rev": "35e97029684fe",
@@ -247,7 +253,7 @@ Pulls down file (available as a buffer) with its metadata.
     })
 
 output of `reply.toString()` returns...
-   
+
     here is some text
 
 output of `metadata` returns...
@@ -287,7 +293,7 @@ Retrieves file or directory  metadata.
     })
 
 output of `reply` returns...
-   
+
     {
       "size": "225.4KB",
       "rev": "35e97029684fe",
@@ -317,7 +323,7 @@ Obtains metadata for the previous revisions of a file.
     })
 
 output of `reply` returns...
-  
+
     [
       {
         "is_deleted": true,
@@ -355,7 +361,7 @@ Restores a file path to a previous revision.
     client.revisions("foo/hello.txt", 4, function(status, reply){
       console.log(reply)
     })
-    
+
 output of `reply` returns...
 
     {
@@ -372,7 +378,7 @@ output of `reply` returns...
       "mime_type": "text/plain",
       "size": "0 bytes"
     }
-    
+
 ### search(path, query, [options,] callback)
 
 Returns metadata for all files and directories that match the search query.
@@ -466,7 +472,7 @@ output of `metadata` returns...
       "root": "app_folder",
       "mime_type": "image/jpeg",
       "size": "762.5 KB"
-    } 
+    }
 
 ### cpref(path, [options,] callback)
 
@@ -480,7 +486,7 @@ output of `reply` returns...
       expires: 'Thu, 03 Apr 2042 22:33:49 +0000',
       copy_ref: 'ALGf72Jrc3A0ZTh5MzA4Mg'
     }
-    
+
 ### delta([options,] callback)
 
     client.delta(function(status, reply){
@@ -498,18 +504,71 @@ output of `reply` returns...
         [ '/bar', [Object] ]
       ]
     }
-    
+
 ### readdir(path, callback)
 
 Get an array of paths for all files and directories found in the given path. The method calls recursively to dropbox so it can take a long time to evaluate.
-    
+
     client.readdir('/', function(status, reply){
         console.log(reply)
     })
 
 Output of `readdir` returns...
-    
+
     ['/','/foo','/bar']
+
+
+### putChunked(buffer, [args,] cb)
+
+Uploads file in multiple chunks. `buffer` should be a buffer containing the current chunk of data. If it is the first chunk, then `args` should be null. For subsequent chunks, `args` should contain the `upload_id` returned via the callback from the first chunk uploaded, and the current `offset` returned via the callback for the most recent chunk uploaded.
+
+    client.putChunked(buffer, args, function(status, reply) {
+      if (status != 200) {
+        // error
+        return cb(status, reply); // err is status
+      }
+      // then send more chunks
+      // ...
+      // then `commitChunked` after last chunk uploaded
+      // ...
+    });
+
+### commitChunked(path, upload_id, cb)
+
+Completes previously initiated chunked upload. `path` should contain path for saving remote file, and `upload_id` shoould contain the `upload_id`  for the chunked upload.
+
+    client.commitChunked(destinationFilename, upload_id, function (status, reply) {
+      if (status != 200) {
+        return cb(status, reply); // err is status
+      }
+      return cb(null, reply); // err is null
+    });
+
+### uploadChunked: function (localPath, remotePath, options, cb)
+
+Automatically performs series of `putChunked` calls then `commitChunked` to upload file via chunks
+
+    client.uploadChunked(source, destination, {
+        "upload_id": null,
+        "offset": 0,
+        "onBeginChunkUpload":  function(upload_id, chunkSize, chunkOffset) {
+            /* could inform user here that chunk upload is beginning */
+          },
+        "onEndChunkUpload": function(status, reply) {
+            /* could inform user here that chunk finished uploading */
+          },
+        "chunkSize": chunkSize
+      }, function(status, reply) {
+
+      if (status !== 200) {
+        // upload failed
+
+        return cb(status, reply); // err is status
+      }
+
+      // upload succeeded
+      cb(null, reply); // err is null
+    }
 
 ## License
 
