@@ -4,49 +4,120 @@
   "version": "0.6.4",
   "author": "Brock Whitten <brock@sintaxi.com>",
   "contributors": [
-    { "name": "Brock Whitten", "email": "brock@sintaxi.com" },
-    { "name": "Anton Podviaznikov", "email": "podviaznikov@gmail.com" },
-    { "name": "Tom Gallacher", "email": "tomgallacher23@gmail.com" },
-    { "name": "Emmanuel Boudrant", "email": "emmanuel.boudrant@gmail.com" },
-    { "name": "Danny Amey", "email": "git@dannyamey.com" },
-    { "name": "Michiel DeJong", "email": "michiel@unhosted.org" },
-    { "name": "Julien Cayzac", "email": "julien.cayzac@gmail.com" },
-    { "name": "Aleksandar Kolundzija", "email": "a@ak.rs" },
-    { "name": "Carl Sverre", "email": "accounts@carlsverre.com" },
-    { "name": "Leonardo D. Schlossmacher", "email": "e@leods92.com" },
-    { "name": "Sam Nguyen", "email": "samxnguyen@gmail.com" },
-    { "name": "Marak Squires", "email": "marak.squires@gmail.com" },
-    { "name": "Paul Ledbetter", "email": "mledbetter.paul@gmail.com" },
-    { "name": "James Allen", "email": "jamesallen0108@gmail.com" },
-    { "name": "Jesper Lindstrøm Nielsen", "email": "me@jstroem.com" },
-    { "name": "Rob Ellis", "email": "rob@chloi.io" },
-    { "name": "Jeremiah Condon", "email": "jeremy@grit-design.com" },
-    { "name": "John Titus", "email": "john.titus@gmail.com" },
-    { "name": "Ben Buckman", "email": "ben.buckman@docusign.com" },
-    { "name": "Zach Ahn", "email": "zach.ahn@gmail.com" }
+    {
+      "name": "Brock Whitten",
+      "email": "brock@sintaxi.com"
+    },
+    {
+      "name": "Anton Podviaznikov",
+      "email": "podviaznikov@gmail.com"
+    },
+    {
+      "name": "Tom Gallacher",
+      "email": "tomgallacher23@gmail.com"
+    },
+    {
+      "name": "Emmanuel Boudrant",
+      "email": "emmanuel.boudrant@gmail.com"
+    },
+    {
+      "name": "Danny Amey",
+      "email": "git@dannyamey.com"
+    },
+    {
+      "name": "Michiel DeJong",
+      "email": "michiel@unhosted.org"
+    },
+    {
+      "name": "Julien Cayzac",
+      "email": "julien.cayzac@gmail.com"
+    },
+    {
+      "name": "Aleksandar Kolundzija",
+      "email": "a@ak.rs"
+    },
+    {
+      "name": "Carl Sverre",
+      "email": "accounts@carlsverre.com"
+    },
+    {
+      "name": "Leonardo D. Schlossmacher",
+      "email": "e@leods92.com"
+    },
+    {
+      "name": "Sam Nguyen",
+      "email": "samxnguyen@gmail.com"
+    },
+    {
+      "name": "Marak Squires",
+      "email": "marak.squires@gmail.com"
+    },
+    {
+      "name": "Paul Ledbetter",
+      "email": "mledbetter.paul@gmail.com"
+    },
+    {
+      "name": "James Allen",
+      "email": "jamesallen0108@gmail.com"
+    },
+    {
+      "name": "Jesper Lindstrøm Nielsen",
+      "email": "me@jstroem.com"
+    },
+    {
+      "name": "Rob Ellis",
+      "email": "rob@chloi.io"
+    },
+    {
+      "name": "Jeremiah Condon",
+      "email": "jeremy@grit-design.com"
+    },
+    {
+      "name": "John Titus",
+      "email": "john.titus@gmail.com"
+    },
+    {
+      "name": "Ben Buckman",
+      "email": "ben.buckman@docusign.com"
+    },
+    {
+      "name": "Zach Ahn",
+      "email": "zach.ahn@gmail.com"
+    },
+    {
+      "name": "Mohammad Fares",
+      "email": "faressoft.com@gmail.com"
+    }
   ],
-  "keywords": ["dropbox", "sdk", "s3"],
+  "keywords": [
+    "dropbox",
+    "sdk",
+    "s3"
+  ],
   "main": "./lib/dbox.js",
   "scripts": {
-     "test": "./node_modules/.bin/mocha -t 120000 test/all.js -R spec"
+    "test": "./node_modules/.bin/mocha -t 120000 test/all.js -R spec"
   },
-  "repository": { 
+  "repository": {
     "type": "git",
     "url": "https://github.com/sintaxi/node-dbox.git"
   },
   "dependencies": {
-    "request": "2.9.153"
+    "isstream": "^0.1.2",
+    "request": "^2.72.0"
   },
-  "devDependencies": { 
+  "devDependencies": {
     "mocha": "1.21.4",
     "should": "4.0.4",
     "prompt": "0.1.12"
   },
-  "engines": { "node": "*" },
-  "licenses" : [
-    { 
-      "type" : "MIT",
-      "url" : "https://raw.github.com/sintaxi/node-dbox/master/README.md"
+  "engines": {
+    "node": "*"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.github.com/sintaxi/node-dbox/master/README.md"
     }
   ]
 }
